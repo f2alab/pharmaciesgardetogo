@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "725354365366",
+    "firebase_url": "https://pharmacies-de-garde-f4935-default-rtdb.firebaseio.com",
+    "project_id": "pharmacies-de-garde-f4935",
+    "storage_bucket": "pharmacies-de-garde-f4935.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725354365366:android:8eeea51fced0e22b1f0117",
+        "android_client_info": {
+          "package_name": "tg.f2alab.pharma6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725354365366-kfcoje3gaearugc4i9v26c62k15adlm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbP3onaVkwEd_3Mj2Nl_CphvQw8YespjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725354365366-kfcoje3gaearugc4i9v26c62k15adlm1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725354365366:android:985d54b461d8aaf61f0117",
+        "android_client_info": {
+          "package_name": "tg.f2alab.pharmaadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725354365366-kfcoje3gaearugc4i9v26c62k15adlm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbP3onaVkwEd_3Mj2Nl_CphvQw8YespjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725354365366-kfcoje3gaearugc4i9v26c62k15adlm1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
