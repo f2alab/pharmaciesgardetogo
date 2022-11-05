@@ -87,10 +87,18 @@ class MesMethodes
                   numero2=="+228 "?message2:message1,
                   style: const TextStyle(
                     fontSize: 14,
-                    fontFamily: "CenturyGothicBold",
                     color: Colors.black,
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 1,
+                child: Container(
+                  color: const Color(0xFF76065F),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
               ),
               ListTile(
                 title: Text(

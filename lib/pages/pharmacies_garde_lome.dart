@@ -6,22 +6,24 @@ import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/pharmacie_garde_item_widget.dart';
+import 'dart:convert';
 
 class PharmaciesGardeLome extends StatefulWidget {
   const PharmaciesGardeLome({Key? key}) : super(key: key);
 
   @override
-  State<PharmaciesGardeLome> createState() => _PharmaciesGardeLomeState();
+  State<PharmaciesGardeLome> createState() => PharmaciesGardeLomeState();
 }
 
-class _PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
+class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
 {
   final firebase = FirebaseDatabase.instance;
   final periodeReference = FirebaseDatabase.instance.ref('PERIODE DE GARDE LOME');
   final listeReference = FirebaseDatabase.instance.ref('PHARMACIES DE GARDE LOME');
   String texte = "La Période de Garde s'affichera ici";
   //List<PharmaciesListeModels> pharmaListe = [];
-  List<PharmaciesGardeItemModels> pharmaListe = [];
+  late List<PharmaciesGardeItemModels> pharmaListe = [];
+  List<PharmaciesGardeItemModels> listeFiltrees = [];
   static const double hauteurSizeBoxMarquee = 30;
 
   @override
@@ -84,7 +86,7 @@ class _PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
       ],
     );*/
 
-    return
+    /*return
       pharmaListe.isEmpty?const Center(
         child: Text("Patientez...", style: TextStyle(fontSize: 15, color: Colors.black),)):
       MesWidgets.MaScrollBarListe(
@@ -102,7 +104,7 @@ class _PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
                       pharmaCONT1: pharmaListe[index].pharmaCONT1,
                       pharmaCONT2: pharmaListe[index].pharmaCONT2,);
                   }
-              ),);
+              ),);*/
               /* Theme(
                  data: Theme.of(context).copyWith(
                    scrollbarTheme: const ScrollbarThemeData(
@@ -129,7 +131,7 @@ class _PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
                  ),
                );*/
 
-    return CustomScrollView(
+    /*return CustomScrollView(
       physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       slivers: [
         SliverToBoxAdapter(
@@ -173,7 +175,7 @@ class _PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
 
         )
       ],
-    );
+    );*/
   }
 
   String periodeGarde() {
@@ -189,8 +191,19 @@ class _PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
 
   void sauvegarder()async
   {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString("pharma_garde_lome", pharmaListe.toString());
+    if(pharmaListe.isNotEmpty)
+    {
+      var liste = json.encode(pharmaListe);
+      var prefs = await SharedPreferences.getInstance();
+      //prefs.setString("pharma_garde_lome", pharmaListe.toString());
+      prefs.setString("pharma_garde_lome", liste);
+
+    }
+    else{
+      monSnackBar("Aucune Pharmacie");
+    }
+
+
   }
 
   //RECUPERER LISTE DE FIREBASE
@@ -211,12 +224,39 @@ class _PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
           pharmaListe.add(pharmacie);
           pharmaListe.sort((a, b) => a.pharmaNOM.compareTo(b.pharmaNOM));
 
-          var prefs = await SharedPreferences.getInstance();
-          prefs.setString("pharma_garde_lome", liste.toString());
         });
 
       });
     });
+  }
+
+  //RECHERCHE
+  recherchePharmacie(String texteRecherche)
+  {
+    List<PharmaciesGardeItemModels> resultatRecherche = [];
+    if(texteRecherche.isEmpty){
+      resultatRecherche = pharmaListe;
+    }
+    resultatRecherche = pharmaListe.where((pharmacie)
+    {
+      final nomPharma = pharmacie.pharmaNOM.toLowerCase();
+      final locPharma = pharmacie.pharmaLOC.toLowerCase();
+      final texteSaisi = texteRecherche.toLowerCase();
+      return nomPharma.contains(texteSaisi) || locPharma.contains(texteSaisi);
+    }).toList();
+    setState(() {
+      listeFiltrees = resultatRecherche;
+    });
+    /*final resultat = pharmaListe.where((pharmacie)
+    {
+      final nomPharma = pharmacie.pharmaNOM.toLowerCase();
+      final locPharma = pharmacie.pharmaLOC.toLowerCase();
+      final texteSaisi = texteRecherche.toLowerCase();
+      return nomPharma.contains(texteSaisi) || locPharma.contains(texteSaisi);
+    }).toList();
+    setState(() {
+      pharmaListe = resultat;
+    });*/
   }
 
   void sauvegarderListePharmaGarde()

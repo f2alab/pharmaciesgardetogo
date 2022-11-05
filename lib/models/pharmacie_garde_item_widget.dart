@@ -121,6 +121,7 @@ class _PharmaciesGardeItemWidgetState extends State<PharmaciesGardeItemWidget>
                 color: const Color(0xFF76065F),
               ),
             ),
+            const SizedBox(height: 5,),
             ListTile(
               title: const Text(
                 "COORDONNÉES",
@@ -159,12 +160,14 @@ class _PharmaciesGardeItemWidgetState extends State<PharmaciesGardeItemWidget>
                 ],
               ),
             ),
+            const SizedBox(height: 10,),
             SizedBox(
               height: 1,
               child: Container(
                 color: const Color(0xFF0E893B),
               ),
             ),
+            const SizedBox(height: 5,),
             ListTile(
               title: const Text(
                 "CONTACTS",

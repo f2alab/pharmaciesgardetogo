@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pharma6/activites/pharmacies_favorites_activity.dart';
-import 'package:pharma6/utilitaires/mes_dimensions.dart';
-import 'package:pharma6/utilitaires/mes_methodes.dart';
 import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/pages/liste_pharmacies_lome.dart';
 import 'package:pharma6/pages/liste_pharmacies_kara.dart';
@@ -9,7 +6,6 @@ import 'package:pharma6/utilitaires/mes_listes.dart';
 import 'package:pharma6/models/pharmacies_liste_model.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pharma6/utilitaires/activities_transitions.dart';
 
 
 class PharmaciesListeActivity extends StatefulWidget
@@ -22,16 +18,13 @@ class PharmaciesListeActivity extends StatefulWidget
 
 class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with AutomaticKeepAliveClientMixin<PharmaciesListeActivity>, SingleTickerProviderStateMixin
 {
+  final maLomeKey = GlobalKey<ListePharmaciesLomeState>();
+  final maKaraKey = GlobalKey<ListePharmaciesKaraState>();
+
   static const double radius = 30;
-  static const double tailleTexteTabBar = 12;
   List<PharmaciesListeModels> pharmaListe = MesListes.lomeListe();
   List<PharmaciesListeModels> listeFiltrees = [];
   bool isChecked = false;
-  bool lomeSelectionnee = false;
-  bool karaSelectionnee = false;
-  //late ListePharmaciesLome listePharmaciesLome;
-  //late ListePharmaciesKara listePharmaciesKara;
-
   Widget titreText = MesWidgets.TitreEtSubtitre(titre: "Annuaire", subtitre: "De Pharmacies");
   Widget appBarTitre = MesWidgets.TitreEtSubtitre(titre: "Annuaire", subtitre: "Pharmacies");
   var rechercheTooltipMessage = "Rechercher Pharmacie";
@@ -53,22 +46,18 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
     {
       setState(()
       {
-        tabController.index==0?[karaSelectionnee=false, lomeSelectionnee=true]:[karaSelectionnee=true, lomeSelectionnee=false];
-        //tabController.index==1?[karaSelectionnee=true, lomeSelectionnee=false]:karaSelectionnee=false;
+        if(rechercheEditEsOuvert==true){
+          setState(() {
+            rechercheEditEsOuvert = false;
+            appBarTitre = titreText;
+            iconRecherche=const Icon(Icons.search_rounded, color: Colors.white,);
+            rechercheEditControler.clear();
+          });
+        }
       });
     });
 
 
-    /*rechercheEditControler.addListener(()
-    {
-      setState(()
-      {
-
-      });
-    });*/
-    //listePharmaciesLome = const ListePharmaciesLome();
-   // listePharmaciesKara = ListePharmaciesKara();
-    //souvenirFavories(widget.pharmaNOM, widget.esFavorie);
   }
 
   souvenirFavories(String nomPharma, bool? esFavorie)async
@@ -83,14 +72,12 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
   {
     super.dispose();
     tabController.dispose();
-
   }
 
   @override
   Widget build(BuildContext context)
   {
     super.build(context);
-
     return SafeArea(
       child: Scaffold(
         body: NestedScrollView(
@@ -106,7 +93,28 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.vertical(bottom: Radius.circular(radius))
                     ),
-                    leading: MesWidgets.MonBoutonRetour(context),
+                    leading: MesWidgets.MonTooltip(
+                        message: "Retour",
+                        child: IconButton(
+                          onPressed: () {
+                            final lomeState = maLomeKey.currentState;
+                            final karaState = maKaraKey.currentState;
+                            if(rechercheEditEsOuvert==true){
+                              setState(() {
+                                rechercheEditEsOuvert = false;
+                                appBarTitre = titreText;
+                                iconRecherche=const Icon(Icons.search_rounded, color: Colors.white,);
+                                rechercheEditControler.clear();
+                                tabController.index==0?lomeState!.listeFiltrees = lomeState.pharmaListe:karaState!.listeFiltrees = karaState.pharmaListe;
+                              });
+                            }else{
+                              Navigator.pop(context);
+                            }
+
+                          },
+                          icon: const Icon(Icons.chevron_left),
+                        ),
+                    ),
                     floating: true, //Pour que AppBar soit visible dès que le scroll down sans revenir au debut de la liste avant qu'il reapparait
                     snap: true,
                     pinned: true, //Pour eviter que TabBar aussi scroll et se masque en meme temps que le AppBar
@@ -137,6 +145,8 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
                         message: rechercheTooltipMessage,
                         child: IconButton(
                           onPressed: () {
+                            final lomeState = maLomeKey.currentState;
+                            final karaState = maKaraKey.currentState;
                             rechercheEditEsOuvert==false?
                             setState((){
                               rechercheEditEsOuvert = true;
@@ -146,7 +156,9 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
                                 controller: rechercheEditControler,
                                 autofocus: true,
                                 cursorColor: MesCouleurs.blanc,
-                                onChanged: null,
+                                onChanged:(texte){
+                                  tabController.index==0?lomeState!.recherchePharmacie(texte):karaState!.recherchePharmacie(texte);
+                                },
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 13,
@@ -167,11 +179,12 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
                                 appBarTitre = titreText;
                                 iconRecherche=const Icon(Icons.search_rounded, color: Colors.white,);
                                 rechercheTooltipMessage = "Rechercher Pharmacie";
-                                //listeFiltrees = pharmaListe;
+                                tabController.index==0?lomeState!.listeFiltrees = lomeState.pharmaListe:karaState!.listeFiltrees = karaState.pharmaListe;
+
                               }else{
                                 rechercheEditControler.clear();
-                                //listeFiltrees = pharmaListe;
                                 rechercheTooltipMessage = "Fermer";
+                                tabController.index==0?lomeState!.listeFiltrees = lomeState.pharmaListe:karaState!.listeFiltrees = karaState.pharmaListe;
                               }
 
                             });
@@ -185,7 +198,8 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
                         message: "Pharmacies Favorites",
                         child: IconButton(
                           onPressed: () {
-                            Navigator.push(context, TransitionDroiteGauche(const PharmaciesFavoritesActivity()));
+                            maKaraKey.currentState!.sauvegarderListe();
+                            //Navigator.push(context, TransitionDroiteGauche(const PharmaciesFavoritesActivity()));
                           },
                           icon: const Icon(Icons.favorite, size: 20,),
                         ),
@@ -198,8 +212,8 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
           body: TabBarView(
               controller: tabController,
               children: [
-                const ListePharmaciesLome(),
-                ListePharmaciesKara(rechercheEditControler: rechercheEditControler,)
+                ListePharmaciesLome(key: maLomeKey,),
+                ListePharmaciesKara(key: maKaraKey,)
           ]),
         ),
 

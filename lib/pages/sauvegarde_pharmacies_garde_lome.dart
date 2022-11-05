@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:pharma6/models/pharmacie_garde_item_widget.dart';
 import 'package:pharma6/models/pharmacies_garde_model.dart';
@@ -46,12 +48,15 @@ class _SauvegardePharmaciesGardeLomeState extends State<SauvegardePharmaciesGard
   void listeSauvees()async
   {
     var prefs = await SharedPreferences.getInstance();
-    List<PharmaciesGardeItemModels> pliste = prefs.getString("pharma_garde_lome") as List<PharmaciesGardeItemModels>;
+    String? liste = prefs.getString("pharma_garde_lome");
+   //var maListe = json.decode(liste!);
     setState(() {
-      pharmaListe = pliste;
+      pharmaListe = json.decode(liste!);
     });
-    //Map<String, dynamic> liste = prefs.getString("pharma_garde_lome") as Map<String, dynamic>;
-    /*liste.forEach((key, value)
+
+    /*Map<String, dynamic> map = Map<String, dynamic>.from(maListe as Map) ;
+
+    map.forEach((key, value)
     {
       var pharmaMap = Map<String, dynamic>.from(value);
       PharmaciesGardeItemModels pharmacie = PharmaciesGardeItemModels(
@@ -62,9 +67,7 @@ class _SauvegardePharmaciesGardeLomeState extends State<SauvegardePharmaciesGard
       setState(() {
         pharmaListe.add(pharmacie);
         pharmaListe.sort((a, b) => a.pharmaNOM.compareTo(b.pharmaNOM));
-
       });
-
     });*/
 
   }

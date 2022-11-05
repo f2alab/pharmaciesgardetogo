@@ -740,6 +740,7 @@ class InformationsPharmaciesLome
   static String locPH182 = "Zossimé, non loin du Marché, sur la Route de Sanguéra";
   static String contPH182_1 = "99 99 80 75";
   static String contPH182_2 = "70 46 26 64";
+
   //AJOUT RECENT
   static String nomPH183 = pharma+ " EL-NISSI";
   static String locPH183= "Route de Kpalimé, Carrefour Apédokoè-Gbomamé, non loin de la Station TOTAL.";
@@ -753,5 +754,18 @@ class InformationsPharmaciesLome
   static String locPH185 = "Klémé Agbokpanou, non loin du Château d'eau, Voie Ségbé-Sanguéra.";
   static String contPH185_1 = "92 01 45 00";
   static String contPH185_2 = "99 90 90 80";
+
+  //AJOUT RECENT Du 11 JUILLET 2022
+  static String nomPH186 = pharma+ " IRIS";
+  static String locPH186 = "Amadahomé, Immeuble Havon, noin de la Station d'Essence CAP.";
+  static String contPH186_1 = "91 68 46 04";
+  static String contPH186_2 = "";
+
+  //AJOUT RECENT Du 05 SEPTEMBRE 2022
+
+  static String nomPH187 = pharma+ " EVA";
+  static String locPH187 = "Zanguéra, Klikamé, non loin de la Station d'Essence T-OIL.";
+  static String contPH187_1 = "92 16 32 32";
+  static String contPH187_2 = "";
 
 }

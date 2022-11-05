@@ -66,7 +66,7 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
   {
     return SafeArea(
         child: Scaffold(
-          extendBodyBehindAppBar: true,
+          //extendBodyBehindAppBar: true,
           appBar: AppBar(
             backgroundColor: MesCouleurs.institutionPrimaryColor,
             shape: const RoundedRectangleBorder(
@@ -220,6 +220,7 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
                                       color: const Color(0xFF76065F),
                                     ),
                                   ),
+                                  const SizedBox(height: 5,),
                                   ListTile(
                                     title: const Text(
                                       "COORDONNÉES",
@@ -258,12 +259,14 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
                                       ],
                                     ),
                                   ),
+                                  const SizedBox(height: 10,),
                                   SizedBox(
                                     height: 1,
                                     child: Container(
                                       color: const Color(0xFF0E893B),
                                     ),
                                   ),
+                                  const SizedBox(height: 5,),
                                   ListTile(
                                     title: const Text(
                                       "CONTACTS",

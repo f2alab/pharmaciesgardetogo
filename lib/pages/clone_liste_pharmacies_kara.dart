@@ -65,7 +65,6 @@ class _CloneListePharmaciesKaraState extends State<CloneListePharmaciesKara> wit
               pharmaLOC: liste[index].pharmaLOC,
               pharmaCONT1: liste[index].pharmaCONT1,
               pharmaCONT2: liste[index].pharmaCONT2,
-              largeur: largeur,
               esFavorie: liste[index].esFavorie);
         });
   }

@@ -9,15 +9,16 @@ class PharmaciesGardeKara extends StatefulWidget {
   const PharmaciesGardeKara({Key? key}) : super(key: key);
 
   @override
-  State<PharmaciesGardeKara> createState() => _PharmaciesGardeKaraState();
+  State<PharmaciesGardeKara> createState() => PharmaciesGardeKaraState();
 }
 
-class _PharmaciesGardeKaraState extends State<PharmaciesGardeKara> {
+class PharmaciesGardeKaraState extends State<PharmaciesGardeKara> {
   final firebase = FirebaseDatabase.instance;
   final periodeReference = FirebaseDatabase.instance.ref('PERIODE DE GARDE KARA');
   final listeReference = FirebaseDatabase.instance.ref('PHARMACIES DE GARDE KARA');
   String texte = "La Période de Garde s'affichera ici";
   List<PharmaciesGardeItemModels> pharmaListe = [];
+  List<PharmaciesGardeItemModels> listeFiltrees = [];
 
   @override
   void initState()
@@ -143,5 +144,34 @@ class _PharmaciesGardeKaraState extends State<PharmaciesGardeKara> {
 
       });
     });
+  }
+
+  //RECHERCHE
+  recherchePharmacie(String texteRecherche)
+  {
+    List<PharmaciesGardeItemModels> resultatRecherche = [];
+    if(texteRecherche.isEmpty){
+      resultatRecherche = pharmaListe;
+    }
+    resultatRecherche = pharmaListe.where((pharmacie)
+    {
+      final nomPharma = pharmacie.pharmaNOM.toLowerCase();
+      final locPharma = pharmacie.pharmaLOC.toLowerCase();
+      final texteSaisi = texteRecherche.toLowerCase();
+      return nomPharma.contains(texteSaisi) || locPharma.contains(texteSaisi);
+    }).toList();
+    setState(() {
+      listeFiltrees = resultatRecherche;
+    });
+    /*final resultat = pharmaListe.where((pharmacie)
+    {
+      final nomPharma = pharmacie.pharmaNOM.toLowerCase();
+      final locPharma = pharmacie.pharmaLOC.toLowerCase();
+      final texteSaisi = texteRecherche.toLowerCase();
+      return nomPharma.contains(texteSaisi) || locPharma.contains(texteSaisi);
+    }).toList();
+    setState(() {
+      pharmaListe = resultat;
+    });*/
   }
 }
