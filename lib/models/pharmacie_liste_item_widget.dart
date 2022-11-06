@@ -26,35 +26,36 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
 {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<bool> esFavorie;
-  Future<void> enregistrerDansFavories(String nomPharma)async
+
+  void enregistrerDansFavories()async
   {
-    //final prefs = await SharedPreferences.getInstance();
-    final prefs = await _prefs;
-    final b = prefs.getBool(nomPharma)??true;
     setState(() {
-      esFavorie = prefs.setBool(nomPharma, b).then((bool succes) => b);
+      widget.esFavorie = !widget.esFavorie;
     });
-    //await prefs.setBool(nomPharma, true);
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(widget.pharmaNOM, widget.esFavorie);
   }
 
-  enleverDansFavories(String nomPharma)async
+  void enleverDansFavories(String nomPharma)async
   {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(nomPharma);
   }
-  /*souvenirFavories(String nomPharma, bool esFavorie)async
+  void souvenirFavories()async
   {
     final prefs = await SharedPreferences.getInstance();
+    var restore = prefs.getBool(widget.pharmaNOM);
     setState(() {
-      esFavorie = prefs.getBool(nomPharma)!;
-      widget.esFavorie = esFavorie;
+      widget.esFavorie = restore!;
     });
-  }*/
+  }
 
   @override
-  void initState() {
-    //souvenirFavories(widget.pharmaNOM, widget.esFavorie);
+  void initState()
+  {
     super.initState();
+
+    souvenirFavories();
   }
 
   @override
@@ -123,18 +124,22 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
                    widget.esFavorie==false?Icons.favorite_border: Icons.favorite,
                    color: widget.esFavorie==false?Colors.white: Colors.amberAccent,
                  ),
-                 onTap: (){setState(() {
+                 onTap: ()
+                 {
+                   enregistrerDansFavories();
+                   /*setState(() {
                    widget.esFavorie = !widget.esFavorie;
-                   monSnackBar(enregistrerDansFavories(widget.pharmaNOM).toString());
+
                    if(widget.esFavorie==false)
                    {
                      enleverDansFavories(widget.pharmaNOM);
                    }
                    else{
-                     enregistrerDansFavories(widget.pharmaNOM);
+                     enregistrerDansFavories();
                    }
 
-                 });},
+                 });*/
+                 },
                ),
 
               ),
@@ -268,6 +273,8 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
   }
 
   //ENREGISTRER DANS FAVORIS
+
+
 
   void monSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(

@@ -115,8 +115,9 @@ class MesWidgets
   static Widget PasDeCorrespondance()
   {
     return AnimatedContainer(
+      transform: Matrix4.identity(),
       duration: const Duration(seconds: 4),
-      curve: Curves.linearToEaseOut,
+      curve: Curves.bounceInOut,
       child: Center(
         child: Card(
           elevation: 5,
@@ -128,7 +129,7 @@ class MesWidgets
             child: Text(
                 "Pas de correspondance!",
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: MesCouleurs.vert)
             ),
