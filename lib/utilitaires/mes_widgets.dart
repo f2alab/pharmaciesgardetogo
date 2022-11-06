@@ -142,7 +142,6 @@ class MesWidgets
   static AppBar PeriodeGardeCard({required String periodeDeGarde}){
     return AppBar(
       toolbarHeight: 35,
-      elevation: 2,
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       title: Center(

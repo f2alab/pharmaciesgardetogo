@@ -37,6 +37,7 @@ class PharmaciesGardeKaraState extends State<PharmaciesGardeKara> {
   Widget build(BuildContext context)
   {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: MesWidgets.PeriodeGardeCard(periodeDeGarde: periodeGarde()),
       body: pharmaListe.isEmpty?const Center(
           child: Text("Patientez...", style: TextStyle(fontSize: 15, color: Colors.black),)):
@@ -63,7 +64,7 @@ class PharmaciesGardeKaraState extends State<PharmaciesGardeKara> {
   String periodeGarde()
   {
 
-    firebase.ref('PERIODE DE GARDE LOME').once().then((DatabaseEvent databaseEvent) {
+    firebase.ref('PERIODE DE GARDE KARA').once().then((DatabaseEvent databaseEvent) {
       setState(() {
         texte = databaseEvent.snapshot.value.toString();
       });

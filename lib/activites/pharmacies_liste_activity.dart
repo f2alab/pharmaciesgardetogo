@@ -32,6 +32,8 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
   bool rechercheEditEsOuvert = false;
   late TextEditingController rechercheEditControler = TextEditingController();
   late TabController tabController;
+  OverlayEntry? entry;
+  Offset offset = const Offset(20, 40);
 
   //POUR GARDER LES STATE DE CHAQUE TAB( Ne pas oublier le with "AutomaticKeepAliveClientMixin<PharmaciesListeActivity>")
   @override
@@ -57,6 +59,7 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
       });
     });
 
+    BoutonFloattant();
 
   }
 
@@ -246,6 +249,31 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
         rechercheTooltipMessage = "Vider texte";
       }
     });
+  }
+
+  //WIDGET FLOTTANT
+  void BoutonFloattant()
+  {
+    entry = OverlayEntry(builder: (context){
+      return Positioned(
+          left: offset.dx,
+          top: offset.dy,
+          child: GestureDetector(
+            onPanUpdate: (details){
+              setState(() {
+                offset+= details.delta;
+                entry!.markNeedsBuild();
+              });
+            },
+            child: ElevatedButton.icon(
+                onPressed: (){},
+                icon: const Icon(Icons.lightbulb_outlined),
+                label: const Text("Flottant")),
+          )
+      );
+    });
+    final overlay = Overlay.of(context)!;
+    overlay.insert(entry!);
   }
 
   void monSnackBar() {
