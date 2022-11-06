@@ -40,15 +40,7 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
         body:
         //MARCHE AVEC recherche() et ajouter listeFiltrees = pharmaListe dans initState
         listeFiltrees.isNotEmpty ? maListView(listeFiltrees) :
-        const Center(
-          child: Text(
-              "Pas de correspondance!",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: MesCouleurs.vert)
-          ),
-        )
+        MesWidgets.PasDeCorrespondance()
       /* //MARCHE AVEC maRecherche()
      listeFiltrees.isEmpty? maListView(pharmaListe):
      const Center(
@@ -98,16 +90,6 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
     setState(() {
       listeFiltrees = resultatRecherche;
     });
-    /*final resultat = pharmaListe.where((pharmacie)
-    {
-      final nomPharma = pharmacie.pharmaNOM.toLowerCase();
-      final locPharma = pharmacie.pharmaLOC.toLowerCase();
-      final texteSaisi = texteRecherche.toLowerCase();
-      return nomPharma.contains(texteSaisi) || locPharma.contains(texteSaisi);
-    }).toList();
-    setState(() {
-      pharmaListe = resultat;
-    });*/
   }
 
   maRecherche(String texteRecherche) {

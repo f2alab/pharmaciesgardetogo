@@ -37,16 +37,8 @@ class ListePharmaciesLomeState extends State<ListePharmaciesLome>
       extendBodyBehindAppBar: true,
       body:
       //MARCHE AVEC recherche() et ajouter listeFiltrees = pharmaListe dans initState
-      listeFiltrees.isNotEmpty? maListView(listeFiltrees) :
-      const Center(
-        child: Text(
-            "Pas de correspondance!",
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: MesCouleurs.vert)
-        ),
-      )
+      listeFiltrees.isNotEmpty? maListView(listeFiltrees):
+      MesWidgets.PasDeCorrespondance()
       /*listeFiltrees.isNotEmpty? maListView(listeFiltrees):
       maListView(pharmaListe)*/
     );

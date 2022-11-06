@@ -9,6 +9,16 @@ import 'dart:io' show Platform;
 
 void main()async
 {
+  /*if(Platform.isWindows){
+    FirebaseOptions firebaseOptions = const FirebaseOptions(
+      appId: '1:448618578101:ios:0b650370bb29e29cac3efc',
+      apiKey: 'AIzaSyAgUhHU8wSJgO5MVNy95tMT07NEjzMOfz0',
+      projectId: 'react-native-firebase-testing',
+      messagingSenderId: '448618578101',
+    );
+
+    await Firebase.initializeApp(options: firebaseOptions);
+  }*/
   if(Platform.isAndroid){
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();

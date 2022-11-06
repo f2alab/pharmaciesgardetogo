@@ -38,7 +38,7 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
 
   @override
   void initState() {
-    //listeFiltrees = organismesListe;
+    listeFiltrees = organismesListe;
     super.initState();
     //STATUS BAR ET NAVIGATION BAR COULEUR
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -91,7 +91,9 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
                             controller: rechercheEditControler,
                             autofocus: true,
                             cursorColor: Colors.white,
-                            onChanged: maRecherche,
+                            onChanged: (texte) {
+                              rechercheOrganisme(texte);
+                            },
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
@@ -120,20 +122,12 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
                         });
                       }, )
               ),
-              IconButton(
-                  onPressed: (){
-                    setState(() {
-                      expanded?iconAnimProgress.forward():iconAnimProgress.reverse();
-                      expanded = !expanded;
-                    });
-                  },
-                  icon: AnimatedIcon(
-                      icon: AnimatedIcons.search_ellipsis,
-                      progress: iconAnimProgress))// Menu Item 1
             ],
           ),
-          body: listeFiltrees.isNotEmpty||rechercheEditControler.text.isNotEmpty? maListView(listeFiltrees):
-          maListView(organismesListe),
+          body: listeFiltrees.isNotEmpty? maListView(listeFiltrees):
+          MesWidgets.PasDeCorrespondance()
+          /*listeFiltrees.isNotEmpty||rechercheEditControler.text.isNotEmpty? maListView(listeFiltrees):
+          maListView(organismesListe),*/
 
         )
     );
@@ -328,6 +322,26 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
             ),
       ),
     );
+  }
+
+  //RECHERCHE
+  rechercheOrganisme(String texteRecherche)
+  {
+    List<OrganismesSanteListeItem> resultatRecherche = [];
+    if(texteRecherche.isEmpty){
+      resultatRecherche = organismesListe;
+    }
+    resultatRecherche = organismesListe.where((organisme)
+    {
+      final nomOrganisme = organisme.nomInstitution.toLowerCase();
+      final locOrganisme = organisme.localInstitution.toLowerCase();
+      final texteSaisi = texteRecherche.toLowerCase();
+      return nomOrganisme.contains(texteSaisi)||locOrganisme.contains(texteSaisi);
+    }).toList();
+    setState(() {
+      listeFiltrees = resultatRecherche;
+    });
+
   }
   //RECHERCHE
   void maRecherche(String texteRecherche)

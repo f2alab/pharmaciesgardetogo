@@ -111,4 +111,30 @@ class MesWidgets
       ),
     );
   }
+
+  static Widget PasDeCorrespondance()
+  {
+    return AnimatedContainer(
+      duration: const Duration(seconds: 4),
+      curve: Curves.linearToEaseOut,
+      child: Center(
+        child: Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Text(
+                "Pas de correspondance!",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: MesCouleurs.vert)
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
