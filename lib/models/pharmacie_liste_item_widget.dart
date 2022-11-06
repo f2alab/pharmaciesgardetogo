@@ -54,13 +54,13 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
   void initState()
   {
     super.initState();
-
-    souvenirFavories();
+    //souvenirFavories();
   }
 
   @override
   Widget build(BuildContext context)
   {
+    souvenirFavories();
     const double elevation = 5;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -127,21 +127,8 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
                  onTap: ()
                  {
                    enregistrerDansFavories();
-                   /*setState(() {
-                   widget.esFavorie = !widget.esFavorie;
-
-                   if(widget.esFavorie==false)
-                   {
-                     enleverDansFavories(widget.pharmaNOM);
-                   }
-                   else{
-                     enregistrerDansFavories();
-                   }
-
-                 });*/
                  },
                ),
-
               ),
             ),
             SizedBox(

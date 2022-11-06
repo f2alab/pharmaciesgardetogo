@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/utilitaires/mes_dimensions.dart';
@@ -94,7 +95,7 @@ class _PharmaciesGardeItemWidgetState extends State<PharmaciesGardeItemWidget>
                     ),
                   ),
                 ),
-               trailing: AnimatedDefaultTextStyle(
+               trailing: GardeTexte()/*AnimatedDefaultTextStyle(
                  duration: const Duration(seconds: 1),
                  curve: Curves.elasticOut,
                  style: animated
@@ -111,7 +112,7 @@ class _PharmaciesGardeItemWidgetState extends State<PharmaciesGardeItemWidget>
                  child: const Text(
                      "Garde",
                    ),
-               ),
+               ),*/
 
               ),
             ),
@@ -648,6 +649,27 @@ class _PharmaciesGardeItemWidgetState extends State<PharmaciesGardeItemWidget>
             //color: const Color(0xFF76065F),
           ),
         )*/
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  Widget GardeTexte()
+  {
+    return DefaultTextStyle(
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 8,
+        color: Colors.amber,
+      ),
+      child: AnimatedTextKit(
+        pause: const Duration(milliseconds: 100),
+        repeatForever: true,
+        animatedTexts: [
+          FlickerAnimatedText('Garde'),
+        ],
+        onTap: () {
+        },
+      ),
     );
   }
 

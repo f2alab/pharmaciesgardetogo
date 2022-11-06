@@ -27,9 +27,14 @@ class ListePharmaciesLomeState extends State<ListePharmaciesLome>
 
   @override
   void initState() {
-    listeFiltrees = pharmaListe;
     super.initState();
+    listeFiltrees = pharmaListe;
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 

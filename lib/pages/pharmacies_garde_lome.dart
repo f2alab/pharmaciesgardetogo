@@ -1,8 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:pharma6/models/pharmacies_garde_model.dart';
-import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/pharmacie_garde_item_widget.dart';
@@ -21,7 +19,6 @@ class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
   final periodeReference = FirebaseDatabase.instance.ref('PERIODE DE GARDE LOME');
   final listeReference = FirebaseDatabase.instance.ref('PHARMACIES DE GARDE LOME');
   String texte = "La Période de Garde s'affichera ici";
-  //List<PharmaciesListeModels> pharmaListe = [];
   late List<PharmaciesGardeItemModels> pharmaListe = [];
   List<PharmaciesGardeItemModels> listeFiltrees = [];
   static const double hauteurSizeBoxMarquee = 30;
@@ -30,23 +27,18 @@ class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
   void initState()
   {
     super.initState();
-
     listePharmaGarde();
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context)
   {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("PharmaG-Lomé"),
-        actions: [
-          IconButton(
-          icon: const Icon(Icons.save_alt),
-          onPressed: (){
-            sauvegarder();
-          },),
-        ],
-      ),
+      appBar: MesWidgets.PeriodeGardeCard(periodeDeGarde: periodeGarde()),
       body: pharmaListe.isEmpty?const Center(
           child: Text("Patientez...", style: TextStyle(fontSize: 15, color: Colors.black),)):
       MesWidgets.MaScrollBarListe(
@@ -66,120 +58,10 @@ class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
             }
         ),)
     );
-    /*return Column(
-      children: [
-        Center(
-            child: Text(periodeGarde(), style: const TextStyle(fontSize: 15, color: Colors.black),)
-        ),
-
-        const SizedBox(height: 15,),
-        StreamBuilder(
-            builder: (context, snapShot)
-            {
-              final List<PharmaciesListeModels> pharmaliste = [];
-              if(snapShot.hasData)
-              {
-
-              }
-            }),
-
-      ],
-    );*/
-
-    /*return
-      pharmaListe.isEmpty?const Center(
-        child: Text("Patientez...", style: TextStyle(fontSize: 15, color: Colors.black),)):
-      MesWidgets.MaScrollBarListe(
-              context: context,
-              child: ListView.builder(
-                  key: const PageStorageKey<String>("pharma_garde_lome"),
-                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                  padding: const EdgeInsets.all(10),
-                  itemCount: pharmaListe.length,
-                  itemBuilder: (context, index)
-                  {
-                    return PharmaciesGardeItemWidget(
-                      pharmaNOM: pharmaListe[index].pharmaNOM ,
-                      pharmaLOC: pharmaListe[index].pharmaLOC,
-                      pharmaCONT1: pharmaListe[index].pharmaCONT1,
-                      pharmaCONT2: pharmaListe[index].pharmaCONT2,);
-                  }
-              ),);*/
-              /* Theme(
-                 data: Theme.of(context).copyWith(
-                   scrollbarTheme: const ScrollbarThemeData(
-                     thumbColor: MaterialStatePropertyAll(MesCouleurs.vert),
-                     radius: Radius.circular(10),
-
-                   )
-                 ),
-                 child: Scrollbar(
-                   child: ListView.builder(
-                      key: const PageStorageKey<String>("pharma_garde_lome"),
-                      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                      padding: const EdgeInsets.all(10),
-                      itemCount: pharmaListe.length,
-                      itemBuilder: (context, index)
-                      {
-                        return PharmaciesGardeItemWidget(
-                          pharmaNOM: pharmaListe[index].pharmaNOM ,
-                          pharmaLOC: pharmaListe[index].pharmaLOC,
-                          pharmaCONT1: pharmaListe[index].pharmaCONT1,
-                          pharmaCONT2: pharmaListe[index].pharmaCONT2,);
-                      }
-                   ),
-                 ),
-               );*/
-
-    /*return CustomScrollView(
-      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-      slivers: [
-        SliverToBoxAdapter(
-          child: Card(
-            elevation: 20,
-            color: MesCouleurs.blanc,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)
-            ),
-            child: SizedBox(
-              height: hauteurSizeBoxMarquee,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 4),
-                child: Marquee(
-                  text: periodeGarde(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    //fontFamily: "SeaSidero",
-                    color: MesCouleurs.vert,
-                  ),
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  blankSpace: 20.0,
-                  velocity: 25,
-                  startPadding: 10.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-        SliverList(
-
-          delegate: SliverChildBuilderDelegate((context, index){
-            return PharmaciesGardeItemWidget(
-              pharmaNOM: pharmaListe[index].pharmaNOM ,
-              pharmaLOC: pharmaListe[index].pharmaLOC,
-              pharmaCONT1: pharmaListe[index].pharmaCONT1,
-              pharmaCONT2: pharmaListe[index].pharmaCONT2,);
-          },
-              childCount: pharmaListe.length),
-
-        )
-      ],
-    );*/
   }
 
-  String periodeGarde() {
-    //String texte = "";
+  String periodeGarde()
+  {
     firebase.ref('PERIODE DE GARDE LOME').once().then((DatabaseEvent databaseEvent) {
       setState(() {
         texte = databaseEvent.snapshot.value.toString();
@@ -247,35 +129,7 @@ class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
     setState(() {
       listeFiltrees = resultatRecherche;
     });
-    /*final resultat = pharmaListe.where((pharmacie)
-    {
-      final nomPharma = pharmacie.pharmaNOM.toLowerCase();
-      final locPharma = pharmacie.pharmaLOC.toLowerCase();
-      final texteSaisi = texteRecherche.toLowerCase();
-      return nomPharma.contains(texteSaisi) || locPharma.contains(texteSaisi);
-    }).toList();
-    setState(() {
-      pharmaListe = resultat;
-    });*/
-  }
 
-  void sauvegarderListePharmaGarde()
-  {
-    listeReference.onValue.listen((event)
-    {
-      Map<String, dynamic> liste = Map<String, dynamic>.from(event.snapshot.value as Map) ;
-      liste.forEach((key, value)
-      {
-        var pharmaMap = Map<String, dynamic>.from(value);
-
-        setState(() async {
-          //pharmaListe.add(pharmacie);
-          var prefs = await SharedPreferences.getInstance();
-          prefs.setString("pharma_garde_lome", pharmaMap.toString());
-        });
-
-      });
-    });
   }
 
   void monSnackBar(String message) {

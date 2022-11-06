@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
@@ -27,14 +28,14 @@ class _PharmaciesFavoritesActivityState extends State<PharmaciesFavoritesActivit
   @override
   void initState() {
     super.initState();
-
+/*
     Timer mytimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       DateTime timenow = DateTime.now();  //get current date and time
       time = timenow.hour.toString() + ":" + timenow.minute.toString() + ":" + timenow.second.toString();
       setState(() {
 
       });
-    });
+    });*/
   }
   @override
   Widget build(BuildContext context)
@@ -108,13 +109,34 @@ class _PharmaciesFavoritesActivityState extends State<PharmaciesFavoritesActivit
             ],
         ),
           body: Center(
-            child: Text(
+            child:
+            SizedBox(
+              width: 250.0,
+              child: DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 35,
+                  color: MesCouleurs.vert,
+
+                ),
+                child: AnimatedTextKit(
+                  pause: const Duration(milliseconds: 100),
+                  repeatForever: true,
+                  animatedTexts: [
+                    FlickerAnimatedText('Garde',),
+                  ],
+                  onTap: () {
+                    print("Tap Event");
+                  },
+                ),
+              ),
+            )
+            /*Text(
               //"PHARMACIES FAVORITES",
               time,
               style: const TextStyle(
                 fontSize: 20,
               ),
-            ),
+            ),*/
           ),
 
 

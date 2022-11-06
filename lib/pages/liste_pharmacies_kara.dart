@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pharma6/models/pharmacies_liste_model.dart';
 import 'package:pharma6/models/pharmacie_liste_item_widget.dart';
-import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/utilitaires/mes_listes.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,8 +29,12 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
 
   @override
   void initState() {
-    listeFiltrees = pharmaListe;
     super.initState();
+    listeFiltrees = pharmaListe;
+  }
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

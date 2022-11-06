@@ -1,8 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:pharma6/models/pharmacies_garde_model.dart';
+import 'package:marquee/marquee.dart';
 import 'mes_couleurs.dart';
 
 
@@ -112,6 +111,7 @@ class MesWidgets
     );
   }
 
+
   static Widget PasDeCorrespondance()
   {
     return AnimatedContainer(
@@ -137,5 +137,63 @@ class MesWidgets
         ),
       ),
     );
+  }
+
+  static AppBar PeriodeGardeCard({required String periodeDeGarde}){
+    return AppBar(
+      toolbarHeight: 35,
+      elevation: 2,
+      backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
+      title: Center(
+        child: Card(
+          elevation: 3,
+          color: MesCouleurs.blanc,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)
+          ),
+          child: SizedBox(
+            height: 30,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 4),
+              child: Marquee(
+                text: periodeDeGarde,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: MesCouleurs.vert,
+                ),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                blankSpace: 20.0,
+                velocity: 25,
+                startPadding: 10.0,
+              ),
+            ),
+          ),
+        ),
+        /*Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child:  Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(
+              periodeDeGarde,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: MesCouleurs.vert)
+          ),
+        ),
+      ),*/
+      ),
+      /*const Text("PharmaG-Lomé"),*/
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(30))
+      ),
+
+    );
+
   }
 }
