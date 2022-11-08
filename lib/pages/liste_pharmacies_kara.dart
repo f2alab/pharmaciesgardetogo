@@ -37,6 +37,15 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
     super.dispose();
   }
 
+  void souvenirFavories(String pharmaNOM, bool esFavorie)async
+  {
+    final prefs = await SharedPreferences.getInstance();
+    var restore = prefs.getBool(pharmaNOM);
+    setState(() {
+      esFavorie = restore!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +78,7 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
             itemBuilder: (BuildContext context, int index) {
               liste.sort((a, b) => a.pharmaNOM.compareTo(b.pharmaNOM));
               //souvenirFavories(liste[index].pharmaNOM, liste[index].esFavorie);
+
               return PharmaciesListeItemWidget(
                   pharmaNOM: liste[index].pharmaNOM,
                   pharmaLOC: liste[index].pharmaLOC,
@@ -128,14 +138,14 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
     print(mJson);
   }
 
-  //SOUVENIR FAVORIE
+  /*//SOUVENIR FAVORIE
   souvenirFavories(String nomPharma, bool? esFavorie) async
   {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       esFavorie = prefs.getBool(nomPharma);
     });
-  }
+  }*/
 
   void monSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(

@@ -38,7 +38,7 @@ class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
   Widget build(BuildContext context)
   {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      //extendBodyBehindAppBar: true,
       appBar: MesWidgets.PeriodeGardeCard(periodeDeGarde: periodeGarde()),
       body: pharmaListe.isEmpty?const Center(
           child: Text("Patientez...", style: TextStyle(fontSize: 15, color: Colors.black),)):

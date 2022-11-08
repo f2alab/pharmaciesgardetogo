@@ -33,7 +33,7 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
   late TextEditingController rechercheEditControler = TextEditingController();
   late TabController tabController;
   OverlayEntry? entry;
-  Offset offset = const Offset(20, 40);
+  Offset offset = const Offset(100, 150);
 
   //POUR GARDER LES STATE DE CHAQUE TAB( Ne pas oublier le with "AutomaticKeepAliveClientMixin<PharmaciesListeActivity>")
   @override
@@ -59,22 +59,16 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
       });
     });
 
-    BoutonFloattant();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {BoutonFloattant(); });
 
   }
 
-  souvenirFavories(String nomPharma, bool? esFavorie)async
-  {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      esFavorie = prefs.getBool(nomPharma);
-    });
-  }
   @override
   void dispose()
   {
     super.dispose();
     tabController.dispose();
+    masquer();
   }
 
   @override
@@ -274,6 +268,10 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
     });
     final overlay = Overlay.of(context)!;
     overlay.insert(entry!);
+  }
+  void masquer(){
+    entry?.remove();
+    entry = null;
   }
 
   void monSnackBar() {
