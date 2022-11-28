@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pharma6/activites/pharmacies_favorites_activity.dart';
+import 'package:pharma6/utilitaires/activities_transitions.dart';
 import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/pages/liste_pharmacies_lome.dart';
 import 'package:pharma6/pages/liste_pharmacies_kara.dart';
 import 'package:pharma6/utilitaires/mes_listes.dart';
 import 'package:pharma6/models/pharmacies_liste_model.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pharma6/utilitaires/mes_animations.dart';
 
 
 class PharmaciesListeActivity extends StatefulWidget
@@ -59,8 +61,7 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
       });
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {BoutonFloattant(); });
-
+    //WidgetsBinding.instance.addPostFrameCallback((timeStamp) {BoutonFloattant(); });
   }
 
   @override
@@ -68,7 +69,7 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
   {
     super.dispose();
     tabController.dispose();
-    masquer();
+    //masquer();
   }
 
   @override
@@ -122,6 +123,7 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
                         indicator: BoxDecoration(
                             color: MesCouleurs.blanc,
                             borderRadius: const BorderRadius.vertical(bottom: Radius.circular(radius)),
+                            shape: BoxShape.rectangle,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black
@@ -140,65 +142,70 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
                     actions: [
                       MesWidgets.MonTooltip(
                         message: rechercheTooltipMessage,
-                        child: IconButton(
-                          onPressed: () {
-                            final lomeState = maLomeKey.currentState;
-                            final karaState = maKaraKey.currentState;
-                            rechercheEditEsOuvert==false?
-                            setState((){
-                              rechercheEditEsOuvert = true;
-                              iconRecherche = const Icon(Icons.close, color: Colors.white, size: 20,);
-                              rechercheTooltipMessage = "Fermer";
-                              appBarTitre = TextField(
-                                controller: rechercheEditControler,
-                                autofocus: true,
-                                cursorColor: MesCouleurs.blanc,
-                                onChanged:(texte){
-                                  tabController.index==0?lomeState!.recherchePharmacie(texte):karaState!.recherchePharmacie(texte);
-                                },
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                ),
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  focusColor: Colors.white,
-                                  hintText: "Rechercher pharmacie",
-                                  hintStyle: TextStyle(
-                                    color: Colors.white70,
-                                  ),
-                                ),
-                              );
-
-                            }):  setState(() {
-                              if( rechercheEditControler.text.isEmpty){
-                                rechercheEditEsOuvert = false;
-                                appBarTitre = titreText;
-                                iconRecherche=const Icon(Icons.search_rounded, color: Colors.white,);
-                                rechercheTooltipMessage = "Rechercher Pharmacie";
-                                tabController.index==0?lomeState!.listeFiltrees = lomeState.pharmaListe:karaState!.listeFiltrees = karaState.pharmaListe;
-
-                              }else{
-                                rechercheEditControler.clear();
+                        child: MesAnimations.MaSlideAnimHorizontal(
+                          offsetX: 10,
+                          childWidget: IconButton(
+                            onPressed: () {
+                              final lomeState = maLomeKey.currentState;
+                              final karaState = maKaraKey.currentState;
+                              rechercheEditEsOuvert==false?
+                              setState((){
+                                rechercheEditEsOuvert = true;
+                                iconRecherche = const Icon(Icons.close, color: Colors.white, size: 20,);
                                 rechercheTooltipMessage = "Fermer";
-                                tabController.index==0?lomeState!.listeFiltrees = lomeState.pharmaListe:karaState!.listeFiltrees = karaState.pharmaListe;
-                              }
+                                appBarTitre = TextField(
+                                  controller: rechercheEditControler,
+                                  autofocus: true,
+                                  cursorColor: MesCouleurs.blanc,
+                                  onChanged:(texte){
+                                    tabController.index==0?lomeState!.recherchePharmacie(texte):karaState!.recherchePharmacie(texte);
+                                  },
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    focusColor: Colors.white,
+                                    hintText: "Rechercher pharmacie",
+                                    hintStyle: TextStyle(
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                );
 
-                            });
+                              }):  setState(() {
+                                if( rechercheEditControler.text.isEmpty){
+                                  rechercheEditEsOuvert = false;
+                                  appBarTitre = titreText;
+                                  iconRecherche=const Icon(Icons.search_rounded, color: Colors.white,);
+                                  rechercheTooltipMessage = "Rechercher Pharmacie";
+                                  tabController.index==0?lomeState!.listeFiltrees = lomeState.pharmaListe:karaState!.listeFiltrees = karaState.pharmaListe;
 
-                          },
-                          icon: iconRecherche,
-                          iconSize: 20,
+                                }else{
+                                  rechercheEditControler.clear();
+                                  rechercheTooltipMessage = "Fermer";
+                                  tabController.index==0?lomeState!.listeFiltrees = lomeState.pharmaListe:karaState!.listeFiltrees = karaState.pharmaListe;
+                                }
+
+                              });
+
+                            },
+                            icon: iconRecherche,
+                            iconSize: 20,
+                          ),
                         ),
                       ), // Menu Item 1
                       MesWidgets.MonTooltip(
                         message: "Pharmacies Favorites",
-                        child: IconButton(
-                          onPressed: () {
-                            maKaraKey.currentState!.sauvegarderListe();
-                            //Navigator.push(context, TransitionDroiteGauche(const PharmaciesFavoritesActivity()));
-                          },
-                          icon: const Icon(Icons.favorite, size: 20,),
+                        child: MesAnimations.MaSlideAnimHorizontal(
+                          offsetX: 10,
+                          childWidget: IconButton(
+                            onPressed: () {
+                              Navigator.push(context, TransitionDroiteGauche(const PharmaciesFavoritesActivity()));
+                            },
+                            icon: const Icon(Icons.favorite, size: 20,),
+                          ),
                         ),
                       ), // Menu Item 2
                     ], // Menu
@@ -217,35 +224,7 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
       ),
     );
   }
-
-  //RECHERCHE
-  void maRecherche(String texteRecherche)
-  {
-    List<PharmaciesListeModels> resultatRecherche = [];
-    if(texteRecherche.isEmpty){
-      resultatRecherche = pharmaListe;
-    }else{
-      resultatRecherche = pharmaListe.where((pharmacie) => pharmacie.pharmaNOM.toLowerCase().contains(texteRecherche.toLowerCase())).toList();
-      resultatRecherche = pharmaListe.where((pharmacie) => pharmacie.pharmaLOC.toLowerCase().contains(texteRecherche.toLowerCase())).toList();
-    }
-    /* final resultat = pharmaListe.where((pharmacie)
-    {
-      final nomPharma = pharmacie.pharmaNOM.toLowerCase();
-      final texteSaisi = texteRecherche.toLowerCase();
-      return nomPharma.contains(texteSaisi);
-    }).toList();*/
-    setState(() {
-      listeFiltrees = resultatRecherche;
-      if( rechercheEditControler.text.isEmpty){
-        //pharmaListe = MesListes.lomeListe();
-        rechercheTooltipMessage = "Fermer";
-      } else{
-        rechercheTooltipMessage = "Vider texte";
-      }
-    });
-  }
-
-  //WIDGET FLOTTANT
+ /* //WIDGET FLOTTANT
   void BoutonFloattant()
   {
     entry = OverlayEntry(builder: (context){
@@ -272,22 +251,6 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
   void masquer(){
     entry?.remove();
     entry = null;
-  }
-
-  void monSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Icon(Icons.settings),
-              Text("MonSnack", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white))
-            ],
-          ),
-          duration: const Duration(seconds: 2),
-          backgroundColor: Colors.blueGrey,
-        )
-    );
-  }
+  }*/
 
 }

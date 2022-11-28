@@ -43,7 +43,7 @@ class ListePharmaciesLomeState extends State<ListePharmaciesLome>
       body:
       //MARCHE AVEC recherche() et ajouter listeFiltrees = pharmaListe dans initState
       listeFiltrees.isNotEmpty? maListView(listeFiltrees):
-      MesWidgets.PasDeCorrespondance()
+      MesWidgets.PasDeCorrespondance("Pas de correspondance!")
       /*listeFiltrees.isNotEmpty? maListView(listeFiltrees):
       maListView(pharmaListe)*/
     );
@@ -88,16 +88,6 @@ class ListePharmaciesLomeState extends State<ListePharmaciesLome>
     setState(() {
       listeFiltrees = resultatRecherche;
     });
-    /*final resultat = pharmaListe.where((pharmacie)
-    {
-      final nomPharma = pharmacie.pharmaNOM.toLowerCase();
-      final locPharma = pharmacie.pharmaLOC.toLowerCase();
-      final texteSaisi = texteRecherche.toLowerCase();
-      return nomPharma.contains(texteSaisi) || locPharma.contains(texteSaisi);
-    }).toList();
-    setState(() {
-      pharmaListe = resultat;
-    });*/
   }
   maRecherche (String texteRecherche)
   {

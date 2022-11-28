@@ -60,7 +60,8 @@ class InformationsOrganismesSante
 
   static String nomInstitution18 = "INSTITUT NATIONAL D'ASSURANCE MALADIE (INAM)";
   static String locInstitution18 = "Avenue de la Libération, angle Rue KAME, Quartier des Étoiles, Wétrivi Kondji.\n\n01 BP 11, Lomé-Togo.";
-  static String contInstitution18 = "22 21 47 99";
+  static String contInstitution18 = "22 53 20 00";
+  //static String contInstitution18 = "22 21 47 99";
   static String nomInstitution19 = "ATBEF";
   static String locInstitution19 = "623, Rue de la Binah, Tokoin-Gbonvié.\n\nBP 4056, Lomé-Togo.";
   static String contInstitution19 = "22 23 30 00";

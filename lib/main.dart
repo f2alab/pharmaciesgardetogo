@@ -47,6 +47,10 @@ class PharmacieAppli extends StatelessWidget
       statusBarColor: MesCouleurs.vert,
       systemNavigationBarColor: MesCouleurs.vert,
     ));
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const Accueil()

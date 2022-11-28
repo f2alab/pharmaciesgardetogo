@@ -7,6 +7,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter/services.dart';
 import 'package:pharma6/utilitaires/mes_methodes.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
+import 'package:pharma6/utilitaires/mes_animations.dart';
 
 class OrganismesSanteListeActivity extends StatefulWidget
 {
@@ -78,54 +79,57 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
               MesWidgets.MonTooltip(
                   message: rechercheTooltipMessage,
                   gradientColor: gradient,
-                  child: IconButton(
-                    icon: iconRecherche,
-                    iconSize: 20,
-                      onPressed: () {
-                        rechercheEditEsOuvert==false?
-                        setState((){
-                          rechercheEditEsOuvert = true;
-                          iconRecherche = const Icon(Icons.close, color: Colors.white,);
-                          rechercheTooltipMessage = "Fermer";
-                          appBarTitre = TextField(
-                            controller: rechercheEditControler,
-                            autofocus: true,
-                            cursorColor: Colors.white,
-                            onChanged: (texte) {
-                              rechercheOrganisme(texte);
-                            },
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                            ),
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              focusColor: Colors.white,
-                              hintText: "Rechercher Organisme",
-                              hintStyle: TextStyle(
-                                color: Colors.white70,
-                              ),
-                            ),
-                          );
-
-                        }):  setState(() {
-                          if( rechercheEditControler.text.isEmpty){
-                            rechercheEditEsOuvert = false;
-                            appBarTitre = appBarDefautTitre;
-                            iconRecherche=const Icon(Icons.search_rounded, color: Colors.white,);
-                            rechercheTooltipMessage = "Recherche Organisme";
-                          }else{
-                            rechercheEditControler.clear();
-                            //listeFiltrees = organismesListe;
+                  child: MesAnimations.MaSlideAnimHorizontal(
+                    offsetX: 5,
+                    childWidget: IconButton(
+                      icon: iconRecherche,
+                      iconSize: 20,
+                        onPressed: () {
+                          rechercheEditEsOuvert==false?
+                          setState((){
+                            rechercheEditEsOuvert = true;
+                            iconRecherche = const Icon(Icons.close, color: Colors.white,);
                             rechercheTooltipMessage = "Fermer";
-                          }
-                        });
-                      }, )
+                            appBarTitre = TextField(
+                              controller: rechercheEditControler,
+                              autofocus: true,
+                              cursorColor: Colors.white,
+                              onChanged: (texte) {
+                                rechercheOrganisme(texte);
+                              },
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                              ),
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                focusColor: Colors.white,
+                                hintText: "Rechercher Organisme",
+                                hintStyle: TextStyle(
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            );
+
+                          }):  setState(() {
+                            if( rechercheEditControler.text.isEmpty){
+                              rechercheEditEsOuvert = false;
+                              appBarTitre = appBarDefautTitre;
+                              iconRecherche=const Icon(Icons.search_rounded, color: Colors.white,);
+                              rechercheTooltipMessage = "Recherche Organisme";
+                            }else{
+                              rechercheEditControler.clear();
+                              //listeFiltrees = organismesListe;
+                              rechercheTooltipMessage = "Fermer";
+                            }
+                          });
+                        }, ),
+                  )
               ),
             ],
           ),
           body: listeFiltrees.isNotEmpty? maListView(listeFiltrees):
-          MesWidgets.PasDeCorrespondance()
+          MesWidgets.PasDeCorrespondance("Pas de correspondance!")
           /*listeFiltrees.isNotEmpty||rechercheEditControler.text.isNotEmpty? maListView(listeFiltrees):
           maListView(organismesListe),*/
 
@@ -137,190 +141,187 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
   Widget maListView (List<OrganismesSanteListeItem> liste)
   {
     const double elevation = 5;
-    return AnimationLimiter(
-      child: MesWidgets.MaScrollBarListe(
-               context: context,
-               scrollBarColor: MesCouleurs.institutionPrimaryColor,
-               child: ListView.builder(
-                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                  shrinkWrap: true,
-                  primary: false,
-                  padding: const EdgeInsets.all(10),
-                  itemCount: liste.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    //listeFiltrees.sort();
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(seconds: 1),
-                      child: SlideAnimation(
-                        verticalOffset: 50.0,
-                        horizontalOffset: 40.0,
-                        child: FadeInAnimation(
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: Card(
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(35),
+
+    return MesAnimations.MaSlideAnimVertical(
+        offsetY: 60,
+        childWidget: MesWidgets.MaScrollBarListe(
+          context: context,
+          scrollBarColor: MesCouleurs.institutionPrimaryColor,
+          child: ListView.builder(
+              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              shrinkWrap: true,
+              primary: false,
+              padding: const EdgeInsets.all(10),
+              itemCount: liste.length,
+              itemBuilder: (BuildContext context, int index) {
+                //listeFiltrees.sort();
+                return MesAnimations.MaSlideAnimHorizontal(
+                  offsetX: 40,
+                  childWidget: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    child: Card(
+                      elevation: 10,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding:
+                            const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(35),
+                                  topRight: Radius.circular(35)),
+                              gradient: gradient,
+                            ),
+                            child: ListTile(
+                              horizontalTitleGap: 1,
+                              leading: const SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.account_balance,
+                                      //listeFiltrees[index].logoInstitution,
+                                      color:  Color(0xFF056629),
+                                    )),
                               ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding:
-                                    const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(35),
-                                          topRight: Radius.circular(35)),
-                                      gradient: gradient,
-                                    ),
-                                    child: ListTile(
-                                      horizontalTitleGap: 1,
-                                      leading: const SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                            child: Icon(
-                                              Icons.account_balance,
-                                              //listeFiltrees[index].logoInstitution,
-                                              color:  Color(0xFF056629),
-                                            )),
-                                      ),
-                                      title: Card(
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: MesDimensions.paddingVerticalCardTitre, horizontal: MesDimensions.paddingHorizontalCardTitre),
-                                          child: Center(
-                                            child: Text(
-                                              liste[index].nomInstitution,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15,
-                                                  color: Color(0xFF056629)),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                    child: Container(
-                                      color: const Color(0xFF76065F),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  ListTile(
-                                    title: const Text(
-                                      "COORDONNÉES",
-                                      style: TextStyle(
+                              title: Card(
+                                elevation: 5,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: MesDimensions.paddingVerticalCardTitre, horizontal: MesDimensions.paddingHorizontalCardTitre),
+                                  child: Center(
+                                    child: Text(
+                                      liste[index].nomInstitution,
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15,
-                                          color: Colors.purple),
-                                    ),
-                                    trailing:  Material(
-                                        elevation: elevation,
-                                        color: Colors.white,
-                                        shape: const CircleBorder(),
-                                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                                        child: InkWell(
-                                          splashColor: Colors.black26,
-                                          onTap: (){},
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Icon(Icons.place, color: MesCouleurs.vert),
-                                          ),
-                                        )),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 3, horizontal: 15),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                              liste[index].localInstitution,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 13,
-                                                  color: Colors.black),
-                                            )),
-                                      ],
+                                          color: Color(0xFF056629)),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
-                                  const SizedBox(height: 10,),
-                                  SizedBox(
-                                    height: 1,
-                                    child: Container(
-                                      color: const Color(0xFF0E893B),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  ListTile(
-                                    title: const Text(
-                                      "CONTACTS",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Colors.purple),
-                                    ),
-                                    trailing: Material(
-                                        elevation: elevation,
-                                        color: Colors.white,
-                                        shape: const CircleBorder(),
-                                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                                        child: InkWell(
-                                          splashColor: Colors.black26,
-                                          onTap: (){MesMethodes.appelerPharmacie("+228 ${liste[index].contactsInstitution}");},
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Icon(Icons.phone, color: MesCouleurs.vert),
-                                          ),
-                                        )),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 3, horizontal: 15),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "+228 ${liste[index].contactsInstitution}",
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 13,
-                                              color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 20, left: 3, right: 3),
-                                    child: SizedBox(
-                                      height: 1,
-                                      child: Container(
-                                        color: const Color(0xFF76065F),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                          SizedBox(
+                            height: 5,
+                            child: Container(
+                              color: const Color(0xFF76065F),
+                            ),
+                          ),
+                          const SizedBox(height: 5,),
+                          ListTile(
+                            title: const Text(
+                              "COORDONNÉES",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.purple),
+                            ),
+                            trailing:  Material(
+                                elevation: elevation,
+                                color: Colors.white,
+                                shape: const CircleBorder(),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: InkWell(
+                                  splashColor: Colors.black26,
+                                  onTap: (){},
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(Icons.place, color: MesCouleurs.vert),
+                                  ),
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 3, horizontal: 15),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                      liste[index].localInstitution,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                          color: Colors.black),
+                                    )),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10,),
+                          SizedBox(
+                            height: 1,
+                            child: Container(
+                              color: const Color(0xFF0E893B),
+                            ),
+                          ),
+                          const SizedBox(height: 5,),
+                          ListTile(
+                            title: const Text(
+                              "CONTACTS",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.purple),
+                            ),
+                            trailing: Material(
+                                elevation: elevation,
+                                color: Colors.white,
+                                shape: const CircleBorder(),
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: InkWell(
+                                  splashColor: Colors.black26,
+                                  onTap: (){MesMethodes.appelerPharmacie("+228 ${liste[index].contactsInstitution}");},
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(Icons.phone, color: MesCouleurs.vert),
+                                  ),
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 3, horizontal: 15),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "+228 ${liste[index].contactsInstitution}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: 20, left: 3, right: 3),
+                            child: SizedBox(
+                              height: 1,
+                              child: Container(
+                                color: const Color(0xFF76065F),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    );
-                  }
-            ),
-      ),
+                    ),
+                  ),
+                );
+              }
+          ),
+        ),
     );
   }
 

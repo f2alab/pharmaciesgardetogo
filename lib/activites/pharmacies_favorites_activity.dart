@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:pharma6/utilitaires/ma_glass.dart';
 import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
 
@@ -24,6 +26,23 @@ class _PharmaciesFavoritesActivityState extends State<PharmaciesFavoritesActivit
   bool rechercheEditEsOuvert = false;
   late TextEditingController rechercheEditControler = TextEditingController();
   String time = "";
+
+  //final reference = FirebaseDatabase.instance.ref('PERIODE DE GARDE KARA');
+  static const LinearGradient personalCoinsGradient = LinearGradient(
+    colors: [
+      Color(0xFF057D31),
+      Color(0xFF25741A),
+      Color(0xFF1D890D),
+    ],
+  );
+  static const LinearGradient goldCoinsGradient = LinearGradient(
+    colors: [
+      Color(0xFFEAC618),
+      Color(0xFFECAB05),
+      Color(0xFFF1DF10),
+    ],
+  );
+
 
   @override
   void initState() {
@@ -108,7 +127,74 @@ class _PharmaciesFavoritesActivityState extends State<PharmaciesFavoritesActivit
 
             ],
         ),
-          body: Center(
+          body: Container(
+            color: Colors.purple,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+                gradient: personalCoinsGradient,
+                shape: BoxShape.rectangle
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: MaGlass(
+                        blur: 10,
+                        opacity: 0.2,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 200,
+                        )
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: MaGlass(
+                        blur: 15,
+                        opacity: 0.5,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 200,
+                        )
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: MaGlass(
+                        blur: 20,
+                        opacity: 0.3,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 200,
+                        )
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          )
+         /* StreamBuilder(
+              stream: reference.onValue,
+              builder: (context, snapshot){
+                if(snapshot.hasData){
+                  return Center(
+                    child: Text(
+                      snapshot.data!.snapshot.value.toString(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: MesCouleurs.vert,
+                      ),
+                    ),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),*/
+          /*Center(
             child:
             SizedBox(
               width: 250.0,
@@ -130,17 +216,27 @@ class _PharmaciesFavoritesActivityState extends State<PharmaciesFavoritesActivit
                 ),
               ),
             )
-            /*Text(
+            *//*Text(
               //"PHARMACIES FAVORITES",
               time,
               style: const TextStyle(
                 fontSize: 20,
               ),
-            ),*/
-          ),
+            ),*//*
+          ),*/
 
 
       )
     );
   }
+
+ /* Widget MaGlass()
+  {
+    return Container(
+      width: double.infinity,
+      height: 250,
+      decoration: ,
+      child: ,
+    );
+  }*/
 }

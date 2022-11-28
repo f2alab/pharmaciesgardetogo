@@ -21,7 +21,6 @@ class _SauvegardePharmaciesGardeLomeState extends State<SauvegardePharmaciesGard
   void initState()
   {
     super.initState();
-
     listeSauvees();
   }
   @override
@@ -29,7 +28,8 @@ class _SauvegardePharmaciesGardeLomeState extends State<SauvegardePharmaciesGard
   {
     return  MesWidgets.MaScrollBarListe(
       context: context,
-      child: ListView.builder(
+      child: pharmaListe.isEmpty?MesWidgets.PasDeCorrespondance("Pas de sauvegarde!"):
+      ListView.builder(
           key: const PageStorageKey<String>("pharma_garde_lome"),
           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           padding: const EdgeInsets.all(10),
@@ -48,27 +48,15 @@ class _SauvegardePharmaciesGardeLomeState extends State<SauvegardePharmaciesGard
   void listeSauvees()async
   {
     var prefs = await SharedPreferences.getInstance();
-    String? liste = prefs.getString("pharma_garde_lome");
-   //var maListe = json.decode(liste!);
+    //String? liste = prefs.getString("pharma_garde_lome");
+    String jsonListe = prefs.getString("pharma_garde_lome")!;
+    List<PharmaciesGardeItemModels> maListe = jsonDecode(jsonListe)
+        .map((item) => PharmaciesGardeItemModels.fromJson(item))
+        .toList()
+        .cast<PharmaciesGardeItemModels>();
+
     setState(() {
-      pharmaListe = json.decode(liste!);
+      pharmaListe = maListe;
     });
-
-    /*Map<String, dynamic> map = Map<String, dynamic>.from(maListe as Map) ;
-
-    map.forEach((key, value)
-    {
-      var pharmaMap = Map<String, dynamic>.from(value);
-      PharmaciesGardeItemModels pharmacie = PharmaciesGardeItemModels(
-          pharmaNOM: pharmaMap ["pharmaNom"],
-          pharmaLOC: pharmaMap["pharmaLocal"],
-          pharmaCONT1: pharmaMap["pharmaContact1"],
-          pharmaCONT2: pharmaMap["pharmaContact2"]);
-      setState(() {
-        pharmaListe.add(pharmacie);
-        pharmaListe.sort((a, b) => a.pharmaNOM.compareTo(b.pharmaNOM));
-      });
-    });*/
-
   }
 }

@@ -52,7 +52,7 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
         body:
         //MARCHE AVEC recherche() et ajouter listeFiltrees = pharmaListe dans initState
         listeFiltrees.isNotEmpty ? maListView(listeFiltrees) :
-        MesWidgets.PasDeCorrespondance()
+        MesWidgets.PasDeCorrespondance("Pas de correspondance!")
       /* //MARCHE AVEC maRecherche()
      listeFiltrees.isEmpty? maListView(pharmaListe):
      const Center(

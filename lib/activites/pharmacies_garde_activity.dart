@@ -187,7 +187,11 @@ class _PharmaciesGardeActivityState extends State<PharmaciesGardeActivity>with A
                     MesWidgets.MonTooltip(
                         message: "Sauvegarde Offline",
                         child: IconButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            final lomeState = maLomeKey.currentState;
+                            final karaState = maKaraKey.currentState;
+                            tabController.index==0?lomeState!.sauvegarder():karaState!.sauvegarder();
+                          },
                           icon: const Icon(Icons.save_alt),
                           iconSize: 20,
                         )),  // Menu Item 1
