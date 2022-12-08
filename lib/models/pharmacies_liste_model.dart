@@ -20,6 +20,16 @@ class PharmaciesListeModels
       pharmaLOC:  json["pharmaLOC"],
       pharmaCONT1: json["pharmaCONT1"],
       pharmaCONT2: json["pharmaCONT2"],
+      esFavorie: json["esFavorie"],
     );
   }
+
+  Map<String, dynamic> toJson()=>
+      {
+        "pharmaNOM":pharmaNOM,
+        "pharmaLOC":pharmaLOC,
+        "pharmaCONT1":pharmaCONT1,
+        "pharmaCONT2":pharmaCONT2,
+        "esFavorie":esFavorie,
+      };
 }

@@ -1,5 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="tg.f2alab.pharma6">
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        tools:overrideLibrary="io.flutter.plugins.googlemaps" />
 
     <!-- Provide required visibility configuration for API level 30 and above -->
     <queries>
@@ -14,8 +19,9 @@
             <data android:scheme="tel" />
         </intent>
     </queries>
+
    <application
-        android:label="pharma6"
+        android:label="Pharmacies de Garde"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -44,6 +50,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <!-- TODO: Add your Google Maps API key here -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCLHjnNgEs8RxLDGaM-9092SycSUHHZ6hU"/>
 
 
     </application>

@@ -16,6 +16,7 @@ class SauvegardePharmaciesGardeLome extends StatefulWidget {
 class _SauvegardePharmaciesGardeLomeState extends State<SauvegardePharmaciesGardeLome>
 {
   List<PharmaciesGardeItemModels> pharmaListe = [];
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState()
@@ -28,9 +29,11 @@ class _SauvegardePharmaciesGardeLomeState extends State<SauvegardePharmaciesGard
   {
     return  MesWidgets.MaScrollBarListe(
       context: context,
+      controller: scrollController,
       child: pharmaListe.isEmpty?MesWidgets.PasDeCorrespondance("Pas de sauvegarde!"):
       ListView.builder(
           key: const PageStorageKey<String>("pharma_garde_lome"),
+          controller: scrollController,
           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           padding: const EdgeInsets.all(10),
           itemCount: pharmaListe.length,

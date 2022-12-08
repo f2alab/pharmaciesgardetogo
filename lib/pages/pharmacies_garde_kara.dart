@@ -24,6 +24,7 @@ class PharmaciesGardeKaraState extends State<PharmaciesGardeKara> {
   String texte = "La Période de Garde s'affichera ici";
   List<PharmaciesGardeItemModels> pharmaListe = [];
   List<PharmaciesGardeItemModels> listeFiltrees = [];
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState()
@@ -103,8 +104,10 @@ class PharmaciesGardeKaraState extends State<PharmaciesGardeKara> {
   {
     return MesWidgets.MaScrollBarListe(
         context: context,
+        controller: scrollController,
         child: ListView.builder(
             key: const PageStorageKey<String>("pharma_liste_kara"),
+            controller: scrollController,
             physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             padding: const EdgeInsets.all(10),
             itemCount: liste.length,
@@ -131,7 +134,7 @@ class PharmaciesGardeKaraState extends State<PharmaciesGardeKara> {
   }
   void readData(){
     firebase.ref('PERIODE DE GARDE KARA').once().then((DatabaseEvent databaseEvent) {
-      print('Data : ${databaseEvent.snapshot.value}');
+      debugPrint('Data : ${databaseEvent.snapshot.value}');
     });
   }
 

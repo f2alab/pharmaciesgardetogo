@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:marquee/marquee.dart';
+import 'package:pharma6/activites/les_mieux_notes_activity.dart';
 import 'package:pharma6/activites/pharmacies_garde_activity.dart';
 import 'package:pharma6/activites/pharmacies_liste_activity.dart';
 import 'package:pharma6/activites/organismes_sante_liste_activity.dart';
@@ -31,6 +32,46 @@ class _AccueilState extends State<Accueil>
   List<AccueilCardModel> cardsListes = MesListes.accueilCardListe();
 
   var date = DateTime.now();
+  final Widget appBarTitre = Text(
+      "Accueil",
+      style: const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ));/*Material(
+    elevation: 3,
+    color: Colors.transparent,
+    borderRadius: BorderRadius.circular(20),
+    child: SizedBox(
+        height: 20,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(colors: [
+              Color(0xFF056629),
+              Color(0xFF177F35),
+              Color(0xFF056629),
+            ]),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+                child: Text(
+                    "Accueil",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    )
+                ),
+              ),
+            ],
+          ),
+        )
+    ),
+  );*/
 
   @override
   void initState() {
@@ -53,14 +94,71 @@ class _AccueilState extends State<Accueil>
                     gradient: MesCouleurs.titreGradient1,
                 )
               ),
-            title: const Text(
+            title: Material(
+              elevation: 3,
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox(
+                  height: 30,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: const LinearGradient(colors: [
+                        Color(0xFF056629),
+                        Color(0xFF177F35),
+                        Color(0xFF056629),
+                      ]),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+                          child: Text(
+                              "Accueil",
+                              style: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              )
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+              ),
+            ),
+            /*const Text(
                 "Accueil",
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
-            ),
+            ),*/
             actions: [
+              Tooltip(
+                message: "Les mieux notées",
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  gradient: MesCouleurs.titreGradient,
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                child: MesAnimations.MaSlideAnimHorizontal(
+                  offsetX: 10,
+                  childWidget: IconButton(
+                    onPressed: () {
+                      Navigator.push(context, TransitionDroiteGauche(const LesMieuxNotesActivity()));
+                      //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const PharmaciesSauveesActivity()));
+                    },
+                    icon: const Icon(Icons.star, ),
+
+                  ),
+                ),
+              ),
               Tooltip(
                 message: "Sauvegarde Pharmacies",
                 decoration: const BoxDecoration(
@@ -156,7 +254,7 @@ class _AccueilState extends State<Accueil>
                   backgroundColor: Colors.white,
                   child: Icon(
                     Icons.thermostat_rounded,
-                    color: MesCouleurs.vert,
+                    color: vert,
                   ),
                 ),
                 ListTile(
@@ -174,7 +272,7 @@ class _AccueilState extends State<Accueil>
                   title: Card(
                     elevation: 20,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: MesCouleurs.blanc,
+                    color: blanc,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)
                     ),
@@ -188,7 +286,7 @@ class _AccueilState extends State<Accueil>
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               fontFamily: "SeaSidero",
-                              color: MesCouleurs.vert,
+                              color: vert,
                             ),
                             crossAxisAlignment: CrossAxisAlignment.center,
                             blankSpace: 20.0,
@@ -201,10 +299,10 @@ class _AccueilState extends State<Accueil>
                   trailing: MesAnimations.MaSlideAnimHorizontal(
                     offsetX: 10,
                     childWidget: const CircleAvatar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: blanc,
                       child: Icon(
                         Icons.account_balance,
-                        color: MesCouleurs.vert,
+                        color: vert,
                       ),
                     ),
                   ),
@@ -216,7 +314,7 @@ class _AccueilState extends State<Accueil>
                   child: Container(
                     padding: const EdgeInsets.only(top: 15),
                     decoration: BoxDecoration(
-                      color: MesCouleurs.blancSale,
+                      color: blancSale,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(radius), topRight: Radius.circular(radius))
                     ),
                     child: MesAnimations.MaSlideAnimVertical(
@@ -236,22 +334,28 @@ class _AccueilState extends State<Accueil>
                                 child: Material(
                                   elevation: 15,
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
                                   child: InkWell(
                                     splashColor: Colors.black26,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Expanded(
-                                          child: SizedBox(
-                                            child: Icon(cardsListes[index].icon),
+                                          child: FractionallySizedBox(
+                                            heightFactor:0.5,
+                                            widthFactor:0.5,
+                                            child: FittedBox(
+                                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                                child: Image.asset(cardsListes[index].image, width: 60, height: 60,)),
                                           ),
                                         ),
                                         Container(
+                                          clipBehavior: Clip.antiAliasWithSaveLayer,
                                           decoration: const BoxDecoration(
                                               color: MesCouleurs.blanc,
                                               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                              gradient: MesCouleurs.titreGradient,
+                                              gradient: titreGradient,
+                                              shape: BoxShape.rectangle,
                                           ),
                                           child: Center(
                                             child: Padding(
@@ -260,7 +364,7 @@ class _AccueilState extends State<Accueil>
                                                 cardsListes[index].titre,
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
-                                                  color: MesCouleurs.blanc,
+                                                  color: blanc,
                                                   fontSize: 12,
                                                 ),
                                               ),

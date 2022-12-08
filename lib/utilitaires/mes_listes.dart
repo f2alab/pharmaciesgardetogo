@@ -1011,6 +1011,16 @@ class MesListes {
   //ACCUEIL CARD LISTE
   static List<AccueilCardModel> accueilCardListe() {
     return [
+      AccueilCardModel(1, "Pharmacies\nde Garde", "images/logopharma.png"),
+      AccueilCardModel(2, "Annuaire de\nPharmacies", "images/annuaire.png"),
+      AccueilCardModel(3, "Organismes\nde Santé", "images/organisme.png"),
+      AccueilCardModel(4, "Bon à\nSavoir", "images/bonasavoir.png"),
+      AccueilCardModel(5, "Donnez\nVotre Avis", "images/feedback.png"),
+      AccueilCardModel(6, "Info sur \nl'Application", "images/apropo.png"),
+    ];
+  }
+  /*static List<AccueilCardModel> accueilCardListe() {
+    return [
       AccueilCardModel(1, "Pharmacies\nde Garde", Icons.account_balance),
       AccueilCardModel(2, "Annuaire de\nPharmacies", Icons.add_business),
       AccueilCardModel(3, "Organismes\nde Santé", Icons.add_business),
@@ -1018,7 +1028,7 @@ class MesListes {
       AccueilCardModel(5, "Donnez\nVotre Avis", Icons.person),
       AccueilCardModel(6, "Info sur \nl'Application", Icons.add_card_sharp),
     ];
-  }
+  }*/
 
   //LISTE ORGANISMES DE SANTE
   static List<OrganismesSanteListeItem> organismesSanteListe() {

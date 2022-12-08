@@ -68,7 +68,9 @@ class _PharmaciesListeActivityState extends State<PharmaciesListeActivity> with 
   void dispose()
   {
     super.dispose();
-    tabController.dispose();
+    if(!mounted){
+      tabController.dispose();
+    }
     //masquer();
   }
 

@@ -3,7 +3,6 @@ import 'package:pharma6/utilitaires/mes_dimensions.dart';
 import 'package:pharma6/utilitaires/mes_couleurs.dart';
 import 'package:pharma6/utilitaires/mes_listes.dart';
 import 'package:pharma6/models/organismes_sante_liste_model.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter/services.dart';
 import 'package:pharma6/utilitaires/mes_methodes.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
@@ -36,6 +35,8 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
   var rechercheEditControler = TextEditingController();
   late AnimationController iconAnimProgress;
   bool expanded = true;
+
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -146,9 +147,11 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
         offsetY: 60,
         childWidget: MesWidgets.MaScrollBarListe(
           context: context,
+          controller: scrollController,
           scrollBarColor: MesCouleurs.institutionPrimaryColor,
           child: ListView.builder(
               physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              controller: scrollController,
               shrinkWrap: true,
               primary: false,
               padding: const EdgeInsets.all(10),

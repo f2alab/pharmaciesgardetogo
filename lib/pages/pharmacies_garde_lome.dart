@@ -22,6 +22,7 @@ class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
   late List<PharmaciesGardeItemModels> pharmaListe = [];
   List<PharmaciesGardeItemModels> listeFiltrees = [];
   static const double hauteurSizeBoxMarquee = 30;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState()
@@ -68,8 +69,10 @@ class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
   {
     return MesWidgets.MaScrollBarListe(
         context: context,
+        controller: scrollController,
         child: ListView.builder(
             key: const PageStorageKey<String>("pharma_liste_lome"),
+            controller: scrollController,
             physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             padding: const EdgeInsets.all(10),
             itemCount: liste.length,

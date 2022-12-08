@@ -24,15 +24,13 @@ class ListePharmaciesLomeState extends State<ListePharmaciesLome>
   Icon iconRecherche = const Icon(Icons.search_rounded, color: Colors.white,);
   bool rechercheEditEsOuvert = false;
   var rechercheEditControler = TextEditingController();
+  ScrollController scrollController = ScrollController();
 
   @override
-  void initState() {
+  void initState()
+  {
     super.initState();
     listeFiltrees = pharmaListe;
-  }
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -53,8 +51,10 @@ class ListePharmaciesLomeState extends State<ListePharmaciesLome>
   {
     return MesWidgets.MaScrollBarListe(
         context: context,
+        controller: scrollController,
         child: ListView.builder(
             key: const PageStorageKey<String>("pharma_liste_lome"),
+            controller: scrollController,
             physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             padding: const EdgeInsets.all(10),
             itemCount: liste.length,

@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:pharma6/activites/maps_activity.dart';
+import 'package:pharma6/models/pharmacies_liste_model.dart';
 import 'package:pharma6/utilitaires/activities_transitions.dart';
 import 'package:pharma6/utilitaires/mes_animations.dart';
 import 'package:pharma6/utilitaires/mes_couleurs.dart';
@@ -29,6 +33,8 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
 {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<bool> esFavorie;
+  List<PharmaciesListeModels> liste = [];
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   void enregistrerDansFavories()async
   {
@@ -37,7 +43,22 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
     });
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(widget.pharmaNOM, widget.esFavorie);
+
+    PharmaciesListeModels pharmacie = PharmaciesListeModels(
+      pharmaNOM: widget.pharmaNOM,
+      pharmaLOC: widget.pharmaLOC,
+      pharmaCONT1: widget.pharmaCONT1,
+      pharmaCONT2: widget.pharmaCONT2,
+      esFavorie: widget.esFavorie,
+    );
+    liste.add(pharmacie);
+    var encodageListe = jsonEncode(liste);
+    var jsonPharma = jsonEncode(pharmacie);
+    debugPrint(encodageListe);
   }
+
+
+
 
   void enleverDansFavories(String nomPharma)async
   {
@@ -48,9 +69,12 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
   {
     final prefs = await SharedPreferences.getInstance();
     var restore = prefs.getBool(widget.pharmaNOM);
-    setState(() {
-      widget.esFavorie = restore!;
-    });
+    if(mounted){
+      setState(() {
+        widget.esFavorie = restore!;
+      });
+    }
+
   }
 
   @override
@@ -161,8 +185,8 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: InkWell(
                       splashColor: Colors.black26,
-                      onTap: (){
-                        Navigator.push(context, TransitionDroiteGauche(const MapsActivity()));
+                      onTap: () {
+                        mapsActivity();
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -270,7 +294,20 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
     );
   }
 
+  mapsActivity()async{
+    AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+    if(androidInfo.version.sdkInt>=20){
+      Navigator.push(context, TransitionDroiteGauche(const MapsActivity()));
+    }else{
+      monSnackBar("Pas supporté!!");
+    }
+  }
+
   //ENREGISTRER DANS FAVORIS
+  ajouterDansFavories() async
+  {
+
+  }
 
   void monSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -289,4 +326,6 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
         )
     );
   }
+
+
 }

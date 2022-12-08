@@ -4,7 +4,8 @@ class AccueilCardModel
 {
   int id;
   String titre;
-  IconData icon;
-  AccueilCardModel(this.id, this.titre, this.icon);
+  //IconData image;
+  String image;
+  AccueilCardModel(this.id, this.titre, this.image);
 
 }

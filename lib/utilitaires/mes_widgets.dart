@@ -87,29 +87,6 @@ class MesWidgets
     );
   }
 
-  //CUSTOM TOOLTIP BOUTON RETOUR
-  static Widget MonBoutonRetour(BuildContext context)
-  {
-    return Tooltip(
-      message: "Retour",
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        gradient: MesCouleurs.titreGradient,
-      ),
-      textStyle: const TextStyle(
-        fontSize: 13,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-      child: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(Icons.chevron_left),
-
-      ),
-    );
-  }
 
   //TITRE ET  SUBTITRE
   static Widget TitreEtSubtitre({required String titre, required String subtitre})
@@ -136,7 +113,7 @@ class MesWidgets
   }
   //LISTE AVEC SCROLLBAR
   static Widget MaScrollBarListe(
-      {required BuildContext context, required Widget child, Color scrollBarColor=MesCouleurs.vert})
+      {required BuildContext context, ScrollController? controller, required Widget child, Color scrollBarColor=MesCouleurs.vert})
   {
     return Theme(
       data: Theme.of(context).copyWith(
@@ -147,6 +124,7 @@ class MesWidgets
           )
       ),
       child: Scrollbar(
+        controller: controller,
         trackVisibility: true,
         child: child,
       ),

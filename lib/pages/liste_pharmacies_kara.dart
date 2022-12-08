@@ -26,24 +26,12 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
   var rechercheTooltip = "Recherche";
   Icon iconRecherche = const Icon(Icons.search_rounded, color: Colors.white,);
   bool rechercheEditEsOuvert = false;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     listeFiltrees = pharmaListe;
-  }
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void souvenirFavories(String pharmaNOM, bool esFavorie)async
-  {
-    final prefs = await SharedPreferences.getInstance();
-    var restore = prefs.getBool(pharmaNOM);
-    setState(() {
-      esFavorie = restore!;
-    });
   }
 
   @override
@@ -53,15 +41,7 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
         //MARCHE AVEC recherche() et ajouter listeFiltrees = pharmaListe dans initState
         listeFiltrees.isNotEmpty ? maListView(listeFiltrees) :
         MesWidgets.PasDeCorrespondance("Pas de correspondance!")
-      /* //MARCHE AVEC maRecherche()
-     listeFiltrees.isEmpty? maListView(pharmaListe):
-     const Center(
-       child: Text(
-           "Pas de correspondance!",
-           style: TextStyle(
-               fontSize: 20,
-               fontWeight: FontWeight.bold,
-               color: MesCouleurs.vert)),)*/
+
     );
   }
 
@@ -69,8 +49,10 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
   Widget maListView(List<PharmaciesListeModels> liste) {
     return MesWidgets.MaScrollBarListe(
         context: context,
+        controller: scrollController,
         child: ListView.builder(
             key: const PageStorageKey<String>("pharma_liste_kara"),
+            controller: scrollController,
             physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics()),
             padding: const EdgeInsets.all(10),
@@ -104,48 +86,6 @@ class ListePharmaciesKaraState extends State<ListePharmaciesKara> with ChangeNot
       listeFiltrees = resultatRecherche;
     });
   }
-
-  maRecherche(String texteRecherche) {
-    listeFiltrees.clear();
-    if (texteRecherche.isEmpty) {
-      setState(() {
-        return;
-      });
-    }
-    for (var pharmacie in pharmaListe) {
-      if (pharmacie.pharmaNOM.toLowerCase().contains(
-          texteRecherche.toLowerCase())
-          || pharmacie.pharmaLOC.toLowerCase().contains(
-              texteRecherche.toLowerCase())) {
-        listeFiltrees.add(pharmacie);
-      }
-    }
-    setState(() {});
-  }
-
-  sauvegarderListe() async
-  {
-    final prefs = await SharedPreferences.getInstance();
-    //var liste = json.encode(pharmaListe);
-    var map = {
-      "pharmaNOM": "NOM",
-      "pharmaLOC": "LOC",
-      "pharmaCONT1": "CONT1",
-      "pharmaCONT2": "CONT2"
-    };
-    var mJson = json.encode(map);
-    prefs.setString("pharma_garde_lome", mJson);
-    print(mJson);
-  }
-
-  /*//SOUVENIR FAVORIE
-  souvenirFavories(String nomPharma, bool? esFavorie) async
-  {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      esFavorie = prefs.getBool(nomPharma);
-    });
-  }*/
 
   void monSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
