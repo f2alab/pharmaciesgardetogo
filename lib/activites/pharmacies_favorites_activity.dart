@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:pharma6/models/pharmacie_liste_item_widget.dart';
+import 'package:pharma6/models/pharmacies_liste_model.dart';
 import 'package:pharma6/utilitaires/ma_glass.dart';
 import 'package:pharma6/utilitaires/mes_couleurs.dart';
+import 'package:pharma6/utilitaires/mes_listes.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PharmaciesFavoritesActivity extends StatefulWidget
 {
@@ -43,10 +47,18 @@ class _PharmaciesFavoritesActivityState extends State<PharmaciesFavoritesActivit
     ],
   );
 
+  List<PharmaciesListeModels> favoListe = [];
+  List<PharmaciesListeModels> lomePharmaListe = MesListes.lomeListe();
+  List<PharmaciesListeModels> karaPharmaListe = MesListes.karaListe();
+  late List<PharmaciesListeModels> pharmaListe;
+
 
   @override
   void initState() {
     super.initState();
+    pharmaListe = lomePharmaListe + karaPharmaListe;
+    favoriesListe();
+
 /*
     Timer mytimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       DateTime timenow = DateTime.now();  //get current date and time
@@ -127,14 +139,8 @@ class _PharmaciesFavoritesActivityState extends State<PharmaciesFavoritesActivit
 
             ],
         ),
-          body: Container(
-            color: Colors.purple,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-                gradient: personalCoinsGradient,
-                shape: BoxShape.rectangle
-            ),
-            child: SingleChildScrollView(
+          body: favoListe.isEmpty?MesWidgets.PasDeCorrespondance("Pas de pharmacies favorites") :maListView(favoListe)
+            /*SingleChildScrollView(
               child: Column(
                 children: const [
                   Padding(
@@ -172,71 +178,60 @@ class _PharmaciesFavoritesActivityState extends State<PharmaciesFavoritesActivit
                   ),
                 ],
               ),
-            ),
-
-          )
-         /* StreamBuilder(
-              stream: reference.onValue,
-              builder: (context, snapshot){
-                if(snapshot.hasData){
-                  return Center(
-                    child: Text(
-                      snapshot.data!.snapshot.value.toString(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: MesCouleurs.vert,
-                      ),
-                    ),
-                  );
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }),*/
-          /*Center(
-            child:
-            SizedBox(
-              width: 250.0,
-              child: DefaultTextStyle(
-                style: const TextStyle(
-                  fontSize: 35,
-                  color: MesCouleurs.vert,
-
-                ),
-                child: AnimatedTextKit(
-                  pause: const Duration(milliseconds: 100),
-                  repeatForever: true,
-                  animatedTexts: [
-                    FlickerAnimatedText('Garde',),
-                  ],
-                  onTap: () {
-                    print("Tap Event");
-                  },
-                ),
-              ),
-            )
-            *//*Text(
-              //"PHARMACIES FAVORITES",
-              time,
-              style: const TextStyle(
-                fontSize: 20,
-              ),
-            ),*//*
-          ),*/
-
+            ),*/
 
       )
     );
   }
 
- /* Widget MaGlass()
+  favoriesListe() async
   {
-    return Container(
-      width: double.infinity,
-      height: 250,
-      decoration: ,
-      child: ,
-    );
-  }*/
+    favoListe.clear();
+    for (var pharmacie in pharmaListe) {
+      final prefs = await SharedPreferences.getInstance();
+      var esFavorie = prefs.getBool(pharmacie.pharmaNOM);
+      if(esFavorie!=null && esFavorie==true){
+        setState(() {
+          favoListe.add(pharmacie);
+        });
+      }
+    }
+  }
+  
+  supprimerDeFavoris()
+  {
+    for(var pharmacie in favoListe){
+      setState(() {
+        favoListe.remove(pharmacie);
+      });
+      
+    }
+
+    debugPrint("HIIII");
+  }
+
+  //LISTE
+  Widget maListView (List<PharmaciesListeModels> liste)
+  {
+    return MesWidgets.MaScrollBarListe(
+        context: context,
+        child: ListView.builder(
+            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            padding: const EdgeInsets.all(10),
+            itemCount: liste.length,
+            itemBuilder: (BuildContext context, int index) {
+              //listeFiltrees.sort();
+              liste.sort((a, b) => a.pharmaNOM.compareTo(b.pharmaNOM));
+              //souvenirFavories(liste[index].pharmaNOM, liste[index].esFavorie);
+              return PharmaciesListeItemWidget(
+                  pharmaNOM: liste[index].pharmaNOM,
+                  pharmaLOC: liste[index].pharmaLOC,
+                  pharmaCONT1: liste[index].pharmaCONT1,
+                  pharmaCONT2: liste[index].pharmaCONT2,
+                  esFavorie: liste[index].esFavorie,
+                  supprimer: ()=>supprimerDeFavoris
+              );
+            }));
+  }
+
 }

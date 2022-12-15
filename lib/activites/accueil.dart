@@ -1,4 +1,5 @@
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:marquee/marquee.dart';
@@ -15,6 +16,8 @@ import 'package:pharma6/utilitaires/mes_listes.dart';
 import 'package:pharma6/models/accueil_card_model.dart';
 import 'package:pharma6/utilitaires/mes_animations.dart';
 import 'package:pharma6/utilitaires/mes_widgets.dart';
+import 'package:pharma6/widgets/accueil_marquee.dart';
+
 
 class Accueil extends StatefulWidget
 {
@@ -29,49 +32,16 @@ class _AccueilState extends State<Accueil>
   final double radius = 40;
   //static const double hauteurSizeBox = 50;
   static const double hauteurSizeBoxMarquee = 30;
+  String texteFilant = "*** PHARMACIES DE GARDE *** PORTEZ VOUS BIEN ***";
   List<AccueilCardModel> cardsListes = MesListes.accueilCardListe();
-
   var date = DateTime.now();
-  final Widget appBarTitre = Text(
+  final Widget appBarTitre = const Text(
       "Accueil",
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.bold,
         color: Colors.white,
-      ));/*Material(
-    elevation: 3,
-    color: Colors.transparent,
-    borderRadius: BorderRadius.circular(20),
-    child: SizedBox(
-        height: 20,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            gradient: LinearGradient(colors: [
-              Color(0xFF056629),
-              Color(0xFF177F35),
-              Color(0xFF056629),
-            ]),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
-                child: Text(
-                    "Accueil",
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )
-                ),
-              ),
-            ],
-          ),
-        )
-    ),
-  );*/
+      ));
 
   @override
   void initState() {
@@ -89,52 +59,48 @@ class _AccueilState extends State<Accueil>
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
-              flexibleSpace: Container(
+            /*flexibleSpace: Container(
                 decoration: const BoxDecoration(
                     gradient: MesCouleurs.titreGradient1,
                 )
-              ),
-            title: Material(
-              elevation: 3,
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
-              child: SizedBox(
-                  height: 30,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: const LinearGradient(colors: [
-                        Color(0xFF056629),
-                        Color(0xFF177F35),
-                        Color(0xFF056629),
-                      ]),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
-                          child: Text(
-                              "Accueil",
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              )
+              ),*/
+            title: MesAnimations.MaSlideAnimHorizontal(
+              offsetX: -15,
+              childWidget: Material(
+                elevation: 3,
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox(
+                    height: 25,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: const LinearGradient(colors: [
+                          Color(0xFF056629),
+                          Color(0xFF177F35),
+                          Color(0xFF056629),
+                        ]),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+                            child: Text(
+                                "Accueil",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                )
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
+                        ],
+                      ),
+                    )
+                ),
               ),
             ),
-            /*const Text(
-                "Accueil",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
-            ),*/
             actions: [
               Tooltip(
                 message: "Les mieux notées",
@@ -148,7 +114,7 @@ class _AccueilState extends State<Accueil>
                   color: Colors.white,
                 ),
                 child: MesAnimations.MaSlideAnimHorizontal(
-                  offsetX: 10,
+                  offsetX: 15,
                   childWidget: IconButton(
                     onPressed: () {
                       Navigator.push(context, TransitionDroiteGauche(const LesMieuxNotesActivity()));
@@ -194,7 +160,7 @@ class _AccueilState extends State<Accueil>
                   color: Colors.white,
                 ),
                 child: MesAnimations.MaSlideAnimHorizontal(
-                  offsetX: 10,
+                  offsetX: 8,
                   childWidget: IconButton(
                     onPressed: () {
                       Navigator.push(context, TransitionDroiteGauche(const PharmaciesFavoritesActivity()));
@@ -218,7 +184,7 @@ class _AccueilState extends State<Accueil>
                     color: Colors.white,
                   ),
                   child: MesAnimations.MaSlideAnimHorizontal(
-                    offsetX: 10,
+                    offsetX: 5,
                     childWidget: IconButton(
                       onPressed: () {
                         //exit(0);
@@ -233,23 +199,12 @@ class _AccueilState extends State<Accueil>
             ],
           ),
           body: Container(
-            //color: MesCouleurs.vert,
-            decoration: const BoxDecoration(
+            color: MesCouleurs.vert,
+            /*decoration: const BoxDecoration(
                 gradient: MesCouleurs.titreGradient1,
-            ),
+            ),*/
             child: Column(
               children: [
-               /*SizedBox(
-                  height:  hauteur * 0.15/2,
-                  child: Text(
-                    DateTime.now().toString(),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: MesCouleurs.blanc,
-                    ),
-                  ),
-                ),*/
                 const CircleAvatar(
                   backgroundColor: Colors.white,
                   child: Icon(
@@ -278,22 +233,7 @@ class _AccueilState extends State<Accueil>
                     ),
                     child: SizedBox(
                       height: hauteurSizeBoxMarquee,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 4),
-                        child: Marquee(
-                            text: "*** PHARMACIES DE GARDE *** PORTEZ VOUS BIEN ***",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "SeaSidero",
-                              color: vert,
-                            ),
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            blankSpace: 20.0,
-                            velocity: 25,
-                            startPadding: 10.0,
-                          ),
-                      ),
+                      child: AccueilMarquee(texte: texteFilant),
                     ),
                   ),
                   trailing: MesAnimations.MaSlideAnimHorizontal(
@@ -334,7 +274,7 @@ class _AccueilState extends State<Accueil>
                                 child: Material(
                                   elevation: 15,
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                                   child: InkWell(
                                     splashColor: Colors.black26,
                                     child: Column(
@@ -377,7 +317,8 @@ class _AccueilState extends State<Accueil>
                                     onTap: ()
                                     {
                                       cardsListes[index].id==1?
-                                      Navigator.push(context, TransitionDroiteGauche(const PharmaciesGardeActivity())):
+                                      verifierConnectivite():
+                                      //Navigator.push(context, TransitionDroiteGauche(const PharmaciesGardeActivity())):
                                       cardsListes[index].id==2?
                                       Navigator.push(context, TransitionDroiteGauche(const PharmaciesListeActivity())):
                                       cardsListes[index].id==3?
@@ -405,6 +346,22 @@ class _AccueilState extends State<Accueil>
           ),
         )
     );
+  }
+
+  verifierConnectivite()async
+  {
+    var result = await Connectivity().checkConnectivity();
+    if(result == ConnectivityResult.mobile
+        ||result == ConnectivityResult.wifi
+        ||result == ConnectivityResult.ethernet
+        ||result == ConnectivityResult.ethernet
+        ||result == ConnectivityResult.bluetooth)
+    {
+      Navigator.push(context, TransitionDroiteGauche(const PharmaciesGardeActivity()));
+
+    }else{
+      monSnackBar("Connectez vous et réssayez");
+    }
   }
 
   //FEEDBACK DIALOG
@@ -563,6 +520,24 @@ class _AccueilState extends State<Accueil>
   void aproposDialog()
   {
       //TEDST
+  }
+
+  void monSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Icon(Icons.settings),
+              Text(message, style: const TextStyle(fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white))
+            ],
+          ),
+          duration: const Duration(seconds: 2),
+          backgroundColor: Colors.blueGrey,
+        )
+    );
   }
 
 

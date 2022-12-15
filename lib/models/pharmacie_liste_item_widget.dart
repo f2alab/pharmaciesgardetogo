@@ -20,9 +20,10 @@ class PharmaciesListeItemWidget extends StatefulWidget
   final String pharmaCONT1;
   final String pharmaCONT2;
   bool esFavorie;
+  final VoidCallback? supprimer;
 
   //const PharmaciesItemWidget({Key? key}) : super(key: key);
-  PharmaciesListeItemWidget({Key? key, required this.pharmaNOM, required this.pharmaLOC, required this.pharmaCONT1, required this.pharmaCONT2,  required this.esFavorie}) : super(key: key);
+  PharmaciesListeItemWidget({Key? key, required this.pharmaNOM, required this.pharmaLOC, required this.pharmaCONT1, required this.pharmaCONT2,  required this.esFavorie, this.supprimer}) : super(key: key);
 
 
   @override
@@ -53,17 +54,18 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
     );
     liste.add(pharmacie);
     var encodageListe = jsonEncode(liste);
-    var jsonPharma = jsonEncode(pharmacie);
-    debugPrint(encodageListe);
   }
-
-
 
 
   void enleverDansFavories(String nomPharma)async
   {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(nomPharma);
+    setState(() {
+
+    });
+    widget.supprimer;
+
   }
   void souvenirFavories()async
   {
@@ -81,6 +83,7 @@ class _PharmaciesListeItemWidgetState extends State<PharmaciesListeItemWidget>
   void initState()
   {
     super.initState();
+
     //souvenirFavories();
   }
 

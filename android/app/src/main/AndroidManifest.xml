@@ -2,6 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="tg.f2alab.pharma6">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
     <uses-sdk
         android:minSdkVersion="19"
         tools:overrideLibrary="io.flutter.plugins.googlemaps" />

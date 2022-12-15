@@ -68,7 +68,7 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
   {
     return SafeArea(
         child: Scaffold(
-          //extendBodyBehindAppBar: true,
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
             backgroundColor: MesCouleurs.institutionPrimaryColor,
             shape: const RoundedRectangleBorder(
@@ -129,7 +129,10 @@ class _OrganismesSanteListeActivityState extends State<OrganismesSanteListeActiv
               ),
             ],
           ),
-          body: listeFiltrees.isNotEmpty? maListView(listeFiltrees):
+          body: listeFiltrees.isNotEmpty? Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: maListView(listeFiltrees),
+          ):
           MesWidgets.PasDeCorrespondance("Pas de correspondance!")
           /*listeFiltrees.isNotEmpty||rechercheEditControler.text.isNotEmpty? maListView(listeFiltrees):
           maListView(organismesListe),*/

@@ -45,22 +45,7 @@ class PharmaciesGardeLomeState extends State<PharmaciesGardeLome>
       body: pharmaListe.isEmpty?const Center(
           child: Text("Patientez...", style: TextStyle(fontSize: 15, color: Colors.black),)):
           MaListView(listeFiltrees),
-      /*MesWidgets.MaScrollBarListe(
-        context: context,
-        child: ListView.builder(
-            key: const PageStorageKey<String>("pharma_garde_lome"),
-            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            padding: const EdgeInsets.all(10),
-            itemCount: pharmaListe.length,
-            itemBuilder: (context, index)
-            {
-              return PharmaciesGardeItemWidget(
-                pharmaNOM: pharmaListe[index].pharmaNOM ,
-                pharmaLOC: pharmaListe[index].pharmaLOC,
-                pharmaCONT1: pharmaListe[index].pharmaCONT1,
-                pharmaCONT2: pharmaListe[index].pharmaCONT2,);
-            }
-        ),)*/
+
     );
   }
 
